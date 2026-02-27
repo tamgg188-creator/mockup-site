@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tamjid Honey Lab - Smooth Pro Mockup</title>
+    <title>Tamjid Honey Lab - Pro Mockup</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
@@ -16,9 +16,17 @@
             background-color: #fffef2;
             margin: 0;
             overflow-x: hidden;
+            transition: filter 0.3s ease; /* ব্রাইটনেস পরিবর্তনের জন্য */
         }
 
-        /* Honey pouring container */
+        /* স্ক্রিন ডিম করার জন্য ওভারলে */
+        #screen-dimmer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 9999; pointer-events: none; opacity: 0;
+            transition: opacity 0.1s ease;
+        }
+
         #honey-stream {
             position: absolute; width: 140px; height: 140px;
             top: 75px; left: 50%; transform: translateX(-50%);
@@ -27,7 +35,6 @@
             transition: opacity 0.3s ease;
         }
 
-        /* Hexagon Price Tag */
         .price-hex {
             width: 115px; height: 125px;
             background: #f59e0b;
@@ -36,12 +43,9 @@
             justify-content: center; color: white; position: relative;
         }
 
-        /* The Magic Bee Container */
         #magic-bee-actor {
-            position: fixed;
-            width: 70px; height: 70px;
-            z-index: 2000;
-            pointer-events: none;
+            position: fixed; width: 70px; height: 70px;
+            z-index: 2000; pointer-events: none;
             transition: transform 0.2s ease;
         }
 
@@ -50,10 +54,7 @@
             font-size: 20px;
         }
 
-        /* Hover animation */
-        .bee-hover {
-            animation: wiggle 2s ease-in-out infinite;
-        }
+        .bee-hover { animation: wiggle 2s ease-in-out infinite; }
         @keyframes wiggle {
             0%, 100% { transform: translate(0, 0) rotate(0); }
             25% { transform: translate(10px, -12px) rotate(5deg); }
@@ -68,14 +69,15 @@
         }
 
         .price-update-pop { animation: pop 0.6s ease; }
-        @keyframes pop {
-            50% { transform: scale(1.4); text-shadow: 0 0 10px #fff; }
-        }
+        @keyframes pop { 50% { transform: scale(1.4); text-shadow: 0 0 10px #fff; } }
 
+        /* ওড়ন্ত মৌমাছির স্টাইল */
         .flying-mission-bee {
-            position: fixed; width: 70px; height: 70px;
-            z-index: 999; cursor: crosshair;
-            pointer-events: auto;
+            position: fixed; width: 80px; height: 80px;
+            z-index: 10000; /* সর্বোচ্চ লেভেল যাতে ক্লিক পায় */
+            cursor: pointer;
+            pointer-events: auto; /* ক্লিক এনাবল করা */
+            user-select: none;
         }
 
         .hex-bg-tile {
@@ -88,6 +90,8 @@
     </style>
 </head>
 <body class="flex flex-col items-center">
+
+    <div id="screen-dimmer"></div>
 
     <nav class="w-full max-w-6xl p-6 flex justify-between items-start">
         <div class="text-2xl font-black text-amber-900 tracking-tighter">
@@ -134,15 +138,13 @@
     </main>
 
     <script>
-        // Global App State
-        let itemsCount = 0, billSum = 0, idleWatcher;
+        let itemsCount = 0, billSum = 0, idleWatcher, audio = null, isBeeBusy = false;
         const UNIT_PRICE = 750;
-        let audio = null;
-        let isBeeBusy = false;
 
         const beeActor = document.getElementById('magic-bee-actor');
         const priceTag = document.getElementById('price-honeycomb');
         const buyBtn = document.getElementById('add-to-cart-btn');
+        const dimmer = document.getElementById('screen-dimmer');
 
         function parkBeeAtHome() {
             const rect = priceTag.getBoundingClientRect();
@@ -150,88 +152,32 @@
             beeActor.style.top = (rect.top - 15) + 'px';
         }
 
-        function resetIdleTimer() {
-            clearTimeout(idleWatcher);
-            if (isBeeBusy) return;
-            idleWatcher = setTimeout(summonBeeToWork, 10000); 
-        }
-
-        function summonBeeToWork() {
-            isBeeBusy = true;
-            const btnRect = buyBtn.getBoundingClientRect();
-            animateFlight(btnRect.left - 40, btnRect.top - 60, true);
-        }
-
-        function sendBeeBackHome() {
-            const rect = priceTag.getBoundingClientRect();
-            animateFlight(rect.left - 55, rect.top - 15, false);
+        function triggerDimEffect() {
+            dimmer.style.opacity = '1';
+            setTimeout(() => { dimmer.style.opacity = '0'; }, 500);
         }
 
         function animateFlight(tx, ty, shouldHover) {
             beeActor.classList.remove('bee-hover');
-            const startX = parseFloat(beeActor.style.left);
-            const startY = parseFloat(beeActor.style.top);
-            const stick = document.getElementById('wand-icon');
+            const startX = parseFloat(beeActor.style.left), startY = parseFloat(beeActor.style.top);
+            let start = null; const duration = 1200;
 
-            let start = null;
-            const duration = 1200;
-
-            function step(timestamp) {
-                if (!start) start = timestamp;
-                const progress = (timestamp - start) / duration;
-
-                if (progress < 1) {
-                    const cx = startX + (tx - startX) * progress;
-                    const cy = startY + (ty - startY) * progress;
-                    const arc = Math.sin(progress * Math.PI) * -60;
-
-                    beeActor.style.left = cx + 'px';
-                    beeActor.style.top = (cy + arc) + 'px';
-                    beeActor.style.transform = `rotate(${progress < 0.5 ? 12 : -12}deg)`;
+            function step(t) {
+                if (!start) start = t;
+                const p = (t - start) / duration;
+                if (p < 1) {
+                    beeActor.style.left = (startX + (tx - startX) * p) + 'px';
+                    beeActor.style.top = (startY + (ty - startY) * p + Math.sin(p * Math.PI) * -60) + 'px';
                     requestAnimationFrame(step);
                 } else {
-                    beeActor.style.left = tx + 'px';
-                    beeActor.style.top = ty + 'px';
-                    beeActor.style.transform = 'rotate(0)';
-                    
-                    if (shouldHover) {
-                        beeActor.classList.add('bee-hover');
-                        stick.classList.add('wand-active');
-                    } else {
-                        isBeeBusy = false;
-                        stick.classList.remove('wand-active');
-                        resetIdleTimer();
-                    }
+                    beeActor.style.left = tx + 'px'; beeActor.style.top = ty + 'px';
+                    if (shouldHover) beeActor.classList.add('bee-hover');
                 }
             }
             requestAnimationFrame(step);
         }
 
-        window.onload = () => { parkBeeAtHome(); resetIdleTimer(); };
-        window.onresize = parkBeeAtHome;
-        document.onmousemove = resetIdleTimer;
-
-        const grid = document.getElementById('hex-grid-container');
-        for(let i=0; i<40; i++) {
-            const h = document.createElement('div');
-            h.className = 'hex-bg-tile';
-            h.style.transitionDelay = (Math.random() * 0.3) + 's';
-            grid.appendChild(h);
-        }
-
-        function playBuzz(ms) {
-            if (!audio) audio = new (window.AudioContext || window.webkitAudioContext)();
-            const o = audio.createOscillator(), g = audio.createGain();
-            o.type = 'sawtooth'; o.frequency.setValueAtTime(130, audio.currentTime);
-            g.gain.setValueAtTime(0, audio.currentTime);
-            g.gain.linearRampToValueAtTime(0.06, audio.currentTime + 0.1);
-            g.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + ms/1000);
-            o.connect(g); g.connect(audio.destination);
-            o.start(); setTimeout(() => o.stop(), ms);
-        }
-
         buyBtn.addEventListener('click', function() {
-            sendBeeBackHome();
             const jar = document.getElementById('honey-pot'), stream = document.getElementById('honey-stream');
             const lottie = document.getElementById('pour-lottie'), gLayer = document.getElementById('hex-grid-container');
 
@@ -243,7 +189,6 @@
 
             setTimeout(() => {
                 const btnPos = this.getBoundingClientRect();
-                playBuzz(3000);
                 startDeliveryBee(btnPos.left + btnPos.width/2, btnPos.top + btnPos.height/2);
                 setTimeout(() => {
                     jar.style.transform = 'translateX(0) rotate(0)';
@@ -252,26 +197,28 @@
             }, 800);
         });
 
-        // SMOOTHED BEE DELIVERY FUNCTION
         function startDeliveryBee(x1, y1) {
             const bee = document.createElement('div');
             bee.className = 'flying-mission-bee';
-            bee.innerHTML = `<dotlottie-player src="https://lottie.host/f3154270-0566-4188-9569-481c3d87bed1/oZmOktFfLe.lottie" background="transparent" speed="1.5" loop autoplay></dotlottie-player>`;
+            bee.innerHTML = `<dotlottie-player src="https://lottie.host/f3154270-0566-4188-9569-481c3d87bed1/oZmOktFfLe.lottie" background="transparent" speed="1.5" loop autoplay style="width:100%; height:100%;"></dotlottie-player>`;
             document.body.appendChild(bee);
 
             const cart = document.getElementById('cart-basket'), cp = cart.getBoundingClientRect();
             const x2 = cp.left + cp.width/2, y2 = cp.top + cp.height/2;
 
             let start = null, isDead = false, vY = 0; 
-            const duration = 1800; // ২ সেকেন্ডের কম সময় যাতে বেশি স্লো না লাগে
+            const duration = 2000;
 
-            bee.onclick = (e) => {
+            // মৃত্যুর লজিক (মাঝপথে ক্লিক করলে কাজ করবে)
+            bee.onmousedown = (e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 if(!isDead) {
                     isDead = true;
+                    triggerDimEffect(); // ব্রাইটনেস কমানো
                     bee.querySelector('dotlottie-player').stop();
-                    bee.style.transition = "transform 0.2s";
-                    bee.style.transform += " rotate(180deg)";
+                    bee.style.transition = "transform 0.3s ease-in";
+                    bee.style.transform = "rotate(180deg) scale(0.8)";
                 }
             };
 
@@ -281,19 +228,15 @@
 
                 if (!isDead) {
                     if (p < 1) {
-                        // লিনিয়ার মুভমেন্ট (কাঁপুনি বাদ দেওয়া হয়েছে)
                         const curX = x1 + (x2 - x1) * p;
                         const curY = y1 + (y2 - y1) * p;
+                        const arc = Math.sin(p * Math.PI) * -150; 
                         
-                        // স্মুথ প্যারাবোলিক কার্ভ
-                        const arcHeight = Math.sin(p * Math.PI) * -140; 
+                        bee.style.left = (curX - 40) + 'px';
+                        bee.style.top = (curY + arc - 40) + 'px';
                         
-                        bee.style.left = curX + 'px';
-                        bee.style.top = (curY + arcHeight) + 'px';
-                        
-                        // প্রগ্রেস অনুযায়ী স্মুথ টিল্টিং (Tilt)
-                        const tilt = (p < 0.5 ? -10 : 10) * Math.sin(p * Math.PI);
-                        bee.style.transform = `translate(-50%, -50%) rotate(${tilt}deg) scale(${1 + Math.sin(p * Math.PI) * 0.15})`;
+                        const tilt = Math.sin(p * Math.PI) * 15;
+                        bee.style.transform = `rotate(${p < 0.5 ? -tilt : tilt}deg) scale(${1 + Math.sin(p * Math.PI) * 0.2})`;
                         
                         requestAnimationFrame(update);
                     } else { 
@@ -301,9 +244,9 @@
                         runMagicUpdate(); 
                     }
                 } else {
-                    // মৌমাছি মারা গেলে ফ্রিলি নিচে পড়ার লজিক
+                    // নিচে পড়ে যাওয়া
                     vY += 0.8; 
-                    const currentTop = parseFloat(bee.style.top);
+                    const currentTop = parseFloat(bee.style.top) || 0;
                     bee.style.top = (currentTop + vY) + 'px';
                     if (currentTop < window.innerHeight) requestAnimationFrame(update); else bee.remove();
                 }
@@ -312,14 +255,22 @@
         }
 
         function runMagicUpdate() {
-            const wand = document.getElementById('wand-icon'), val = document.getElementById('bill-display'), qty = document.getElementById('qty-badge');
-            wand.classList.add('wand-active');
-            setTimeout(() => {
-                itemsCount++; billSum += UNIT_PRICE;
-                qty.innerText = itemsCount; val.innerText = `৳${billSum}`;
-                val.classList.add('price-update-pop');
-                setTimeout(() => { wand.classList.remove('wand-active'); val.classList.remove('price-update-pop'); }, 800);
-            }, 300);
+            const val = document.getElementById('bill-display'), qty = document.getElementById('qty-badge');
+            itemsCount++; billSum += UNIT_PRICE;
+            qty.innerText = itemsCount; val.innerText = `৳${billSum}`;
+            val.classList.add('price-update-pop');
+            setTimeout(() => { val.classList.remove('price-update-pop'); }, 800);
+        }
+
+        window.onload = parkBeeAtHome;
+        window.onresize = parkBeeAtHome;
+
+        const grid = document.getElementById('hex-grid-container');
+        for(let i=0; i<40; i++) {
+            const h = document.createElement('div');
+            h.className = 'hex-bg-tile';
+            h.style.transitionDelay = (Math.random() * 0.3) + 's';
+            grid.appendChild(h);
         }
     </script>
 </body>
