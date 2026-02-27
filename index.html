@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tamjid Honey Lab - Pro Mockup</title>
+    <title>Tamjid Honey Lab - Smooth Pro Mockup</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
@@ -75,6 +75,7 @@
         .flying-mission-bee {
             position: fixed; width: 70px; height: 70px;
             z-index: 999; cursor: crosshair;
+            pointer-events: auto;
         }
 
         .hex-bg-tile {
@@ -137,20 +138,18 @@
         let itemsCount = 0, billSum = 0, idleWatcher;
         const UNIT_PRICE = 750;
         let audio = null;
-        let isBeeBusy = false; // To prevent timer overlap
+        let isBeeBusy = false;
 
         const beeActor = document.getElementById('magic-bee-actor');
         const priceTag = document.getElementById('price-honeycomb');
         const buyBtn = document.getElementById('add-to-cart-btn');
 
-        // Initial Bee Placement
         function parkBeeAtHome() {
             const rect = priceTag.getBoundingClientRect();
             beeActor.style.left = (rect.left - 55) + 'px';
             beeActor.style.top = (rect.top - 15) + 'px';
         }
 
-        // Idle Timer Management
         function resetIdleTimer() {
             clearTimeout(idleWatcher);
             if (isBeeBusy) return;
@@ -166,10 +165,8 @@
         function sendBeeBackHome() {
             const rect = priceTag.getBoundingClientRect();
             animateFlight(rect.left - 55, rect.top - 15, false);
-            // reset timer will be called after flight finishes in animateFlight
         }
 
-        // Bee Flight Core (Reusable)
         function animateFlight(tx, ty, shouldHover) {
             beeActor.classList.remove('bee-hover');
             const startX = parseFloat(beeActor.style.left);
@@ -177,7 +174,7 @@
             const stick = document.getElementById('wand-icon');
 
             let start = null;
-            const duration = 1500;
+            const duration = 1200;
 
             function step(timestamp) {
                 if (!start) start = timestamp;
@@ -203,19 +200,17 @@
                     } else {
                         isBeeBusy = false;
                         stick.classList.remove('wand-active');
-                        resetIdleTimer(); // Start watching again after returning
+                        resetIdleTimer();
                     }
                 }
             }
             requestAnimationFrame(step);
         }
 
-        // Window Events
         window.onload = () => { parkBeeAtHome(); resetIdleTimer(); };
         window.onresize = parkBeeAtHome;
-        document.onmousemove = resetIdleTimer; // User activity resets timer
+        document.onmousemove = resetIdleTimer;
 
-        // Grid Generator
         const grid = document.getElementById('hex-grid-container');
         for(let i=0; i<40; i++) {
             const h = document.createElement('div');
@@ -224,7 +219,6 @@
             grid.appendChild(h);
         }
 
-        // Audio Engine
         function playBuzz(ms) {
             if (!audio) audio = new (window.AudioContext || window.webkitAudioContext)();
             const o = audio.createOscillator(), g = audio.createGain();
@@ -236,7 +230,6 @@
             o.start(); setTimeout(() => o.stop(), ms);
         }
 
-        // Buy Action
         buyBtn.addEventListener('click', function() {
             sendBeeBackHome();
             const jar = document.getElementById('honey-pot'), stream = document.getElementById('honey-stream');
@@ -250,7 +243,7 @@
 
             setTimeout(() => {
                 const btnPos = this.getBoundingClientRect();
-                playBuzz(3500);
+                playBuzz(3000);
                 startDeliveryBee(btnPos.left + btnPos.width/2, btnPos.top + btnPos.height/2);
                 setTimeout(() => {
                     jar.style.transform = 'translateX(0) rotate(0)';
@@ -259,17 +252,18 @@
             }, 800);
         });
 
+        // SMOOTHED BEE DELIVERY FUNCTION
         function startDeliveryBee(x1, y1) {
             const bee = document.createElement('div');
             bee.className = 'flying-mission-bee';
-            bee.innerHTML = `<dotlottie-player src="https://lottie.host/f3154270-0566-4188-9569-481c3d87bed1/oZmOktFfLe.lottie" background="transparent" speed="1.2" loop autoplay></dotlottie-player>`;
+            bee.innerHTML = `<dotlottie-player src="https://lottie.host/f3154270-0566-4188-9569-481c3d87bed1/oZmOktFfLe.lottie" background="transparent" speed="1.5" loop autoplay></dotlottie-player>`;
             document.body.appendChild(bee);
 
             const cart = document.getElementById('cart-basket'), cp = cart.getBoundingClientRect();
             const x2 = cp.left + cp.width/2, y2 = cp.top + cp.height/2;
 
             let start = null, isDead = false, vY = 0; 
-            const duration = 3500;
+            const duration = 1800; // ২ সেকেন্ডের কম সময় যাতে বেশি স্লো না লাগে
 
             bee.onclick = (e) => {
                 e.stopPropagation();
@@ -284,18 +278,34 @@
             function update(t) {
                 if (!start) start = t;
                 const p = (t - start) / duration;
+
                 if (!isDead) {
                     if (p < 1) {
-                        const curX = x1 + (x2 - x1) * p, curY = y1 + (y2 - y1) * p;
-                        bee.style.left = (curX + Math.sin(t * 0.05) * 20) + 'px';
-                        bee.style.top = (curY + Math.sin(p * Math.PI) * -180) + 'px';
-                        bee.style.transform = `translate(-50%, -50%) rotate(${p < 0.5 ? -15 : 15}deg) scale(${1 + Math.sin(p * Math.PI) * 0.2})`;
+                        // লিনিয়ার মুভমেন্ট (কাঁপুনি বাদ দেওয়া হয়েছে)
+                        const curX = x1 + (x2 - x1) * p;
+                        const curY = y1 + (y2 - y1) * p;
+                        
+                        // স্মুথ প্যারাবোলিক কার্ভ
+                        const arcHeight = Math.sin(p * Math.PI) * -140; 
+                        
+                        bee.style.left = curX + 'px';
+                        bee.style.top = (curY + arcHeight) + 'px';
+                        
+                        // প্রগ্রেস অনুযায়ী স্মুথ টিল্টিং (Tilt)
+                        const tilt = (p < 0.5 ? -10 : 10) * Math.sin(p * Math.PI);
+                        bee.style.transform = `translate(-50%, -50%) rotate(${tilt}deg) scale(${1 + Math.sin(p * Math.PI) * 0.15})`;
+                        
                         requestAnimationFrame(update);
-                    } else { bee.remove(); runMagicUpdate(); }
+                    } else { 
+                        bee.remove(); 
+                        runMagicUpdate(); 
+                    }
                 } else {
-                    vY += 8; const top = parseFloat(bee.style.top);
-                    bee.style.top = (top + vY) + 'px';
-                    if (top < window.innerHeight) requestAnimationFrame(update); else bee.remove();
+                    // মৌমাছি মারা গেলে ফ্রিলি নিচে পড়ার লজিক
+                    vY += 0.8; 
+                    const currentTop = parseFloat(bee.style.top);
+                    bee.style.top = (currentTop + vY) + 'px';
+                    if (currentTop < window.innerHeight) requestAnimationFrame(update); else bee.remove();
                 }
             }
             requestAnimationFrame(update);
