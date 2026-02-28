@@ -78,6 +78,7 @@
 </head>
 <body class="flex flex-col items-center">
 
+    <!-- Navigation -->
     <nav class="w-full max-w-6xl p-4 md:p-6 flex flex-col md:flex-row justify-between items-center gap-6 sticky top-0 bg-[#fffef2]/90 backdrop-blur-md z-[5000] border-b border-amber-100">
         <div class="text-2xl font-black text-amber-900 tracking-tighter cursor-pointer" onclick="switchSection('product')">
             TAMJID HONEY <span class="text-amber-500">LAB</span>
@@ -95,7 +96,6 @@
                 <dotlottie-player src="https://lottie.host/f3154270-0566-4188-9569-481c3d87bed1/oZmOktFfLe.lottie" background="transparent" speed="1" loop autoplay></dotlottie-player>
                 <div style="position:absolute; right:8px; top:8px; font-size:20px;">🪄</div>
             </div>
-            
             <div id="price-honeycomb" class="price-hex">
                 <div class="text-[9px] uppercase font-bold opacity-70">Total Bill</div>
                 <div id="bill-display" class="text-lg font-black">৳০</div>
@@ -107,6 +107,7 @@
         </div>
     </nav>
 
+    <!-- Product Section -->
     <section id="section-product" class="page-section active mt-10">
         <div class="text-center mb-12">
             <h2 class="text-4xl font-black text-amber-900 mb-4">আমাদের প্রিমিয়াম মধু সংগ্রহ</h2>
@@ -114,9 +115,11 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4" id="product-grid">
-            </div>
+            <!-- Products will be injected by JS -->
+        </div>
     </section>
 
+    <!-- Reviews Section -->
     <section id="section-reviews" class="page-section mt-10">
         <div class="text-center mb-12">
             <h2 class="text-4xl font-black text-amber-900 mb-4">গ্রাহকদের মতামত</h2>
@@ -159,6 +162,7 @@
         </div>
     </section>
 
+    <!-- About Section -->
     <section id="section-about" class="page-section mt-10">
         <div class="max-w-4xl mx-auto bg-white rounded-[50px] shadow-2xl overflow-hidden border border-amber-100 flex flex-col md:flex-row">
             <div class="md:w-1/3 bg-amber-500 p-10 flex flex-col items-center justify-center text-white text-center">
@@ -174,6 +178,7 @@
         </div>
     </section>
 
+    <!-- Contact Section -->
     <section id="section-contact" class="page-section mt-10">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 bg-white p-10 rounded-[50px] shadow-2xl border border-amber-100">
             <div>
@@ -211,13 +216,15 @@
         </div>
     </section>
 
+    <!-- Cart Section -->
     <section id="section-cart" class="page-section mt-10">
         <div class="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-[40px] shadow-xl border border-amber-100">
             <h2 class="text-3xl font-black text-amber-900 mb-8 border-b pb-4 flex items-center gap-4">
                 আপনার কার্ট <span class="text-sm font-normal bg-amber-100 px-3 py-1 rounded-full" id="cart-count-text">০টি পণ্য</span>
             </h2>
             <div id="cart-content-area" class="space-y-6">
-                </div>
+                <!-- Cart items injected by JS -->
+            </div>
             <div id="cart-footer" class="mt-10 pt-6 border-t hidden">
                 <div class="flex justify-between text-2xl font-black text-gray-800 mb-8">
                     <span>সর্বমোট:</span>
@@ -228,6 +235,7 @@
         </div>
     </section>
 
+    <!-- Checkout Section -->
     <section id="section-checkout" class="page-section mt-10">
         <div class="max-w-xl mx-auto bg-white p-10 rounded-[40px] shadow-2xl border-2 border-amber-100">
             <h2 class="text-2xl font-black text-amber-900 mb-8 text-center">ডেলিভারি ঠিকানা (Cash on Delivery)</h2>
@@ -248,6 +256,7 @@
         </div>
     </section>
 
+    <!-- Dashboard Section -->
     <section id="section-dashboard" class="page-section mt-10">
         <div class="bg-white p-8 rounded-3xl shadow-xl overflow-x-auto">
             <div class="flex justify-between items-center mb-6">
@@ -270,6 +279,7 @@
         </div>
     </section>
 
+    <!-- Modals & Popups -->
     <div id="pin-modal">
         <div class="atm-box">
             <div class="pin-display" id="pin-dots"></div>
@@ -299,6 +309,7 @@
         </div>
     </div>
 
+    <!-- Animation Helpers -->
     <div id="honey-stream-container" class="fixed inset-0 pointer-events-none z-[6000]">
         <div id="honey-stream" class="hidden">
             <dotlottie-player id="pour-lottie" src="https://lottie.host/2d6f0c66-420b-437b-8680-f77e782caac3/wlI5cSMy8l.lottie" background="transparent" speed="1.2"></dotlottie-player>
@@ -341,23 +352,14 @@
             `).join('');
         }
 
-        // মৌমাছি পার্কিং লজিক
+        // মৌমাছি পার্কিং ও এনিমেশন রিসেট
         function parkBee() {
-            if (!beeActor || !billBox) return;
             beeActor.classList.remove('bee-orbit');
-            
             if(currentView !== 'product') {
                 beeActor.style.left = '20px'; beeActor.style.top = '20px';
                 return;
             }
-            
             const rect = billBox.getBoundingClientRect();
-            // স্ক্রিন লোড হতে দেরি হলে যদি rect 0 হয় তবে ট্রাই করা বন্ধ করবেনা
-            if (rect.left === 0 && rect.top === 0) {
-                setTimeout(parkBee, 100);
-                return;
-            }
-            
             beeActor.style.left = (rect.left - 60) + 'px';
             beeActor.style.top = (rect.top - 15) + 'px';
         }
@@ -365,7 +367,16 @@
         function startIdleBee() {
             clearTimeout(idleBeeTimer);
             parkBee();
-            // এখানে ৫ সেকেন্ড পর নিচে নামার লজিকটি বাদ দেওয়া হয়েছে যাতে মৌমাছিটি সবসময় ওখানেই থাকে।
+            if(currentView === 'product') {
+                idleBeeTimer = setTimeout(() => {
+                    const nav = document.querySelector('nav').getBoundingClientRect();
+                    beeActor.style.left = (nav.left + nav.width/2 - 37) + 'px';
+                    beeActor.style.top = (nav.top + 100) + 'px';
+                    setTimeout(() => {
+                        if(currentView === 'product') beeActor.classList.add('bee-orbit');
+                    }, 800);
+                }, 5000);
+            }
         }
 
         function switchSection(id) {
@@ -589,8 +600,7 @@
 
         window.onload = () => {
             initProducts();
-            // লোড হওয়ার সাথে সাথে মৌমাছিটিকে সঠিক জায়গায় বসানোর জন্য
-            setTimeout(parkBee, 200); 
+            parkBee(); 
             startIdleBee();
             
             // Background Hex Grid
