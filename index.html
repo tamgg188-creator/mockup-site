@@ -11,314 +11,323 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600&display=swap');
         
-        body {
-            font-family: 'Hind Siliguri', sans-serif;
-            background-color: #fffef2;
-            margin: 0;
-            overflow-x: hidden;
-            transition: filter 0.3s ease;
-        }
+        body { font-family: 'Hind Siliguri', sans-serif; background-color: #fffef2; margin: 0; overflow-x: hidden; }
 
         /* সেকশন কন্ট্রোল */
         .page-section { display: none; min-height: 80vh; width: 100%; max-width: 1200px; margin: 0 auto; }
         .page-section.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* নিকনেম পালস অ্যানিমেশন */
+        .nickname-pulse { display: inline-block; animation: pulse 0.5s ease-in-out infinite alternate; color: #d97706; }
+        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.3); text-shadow: 0 0 10px rgba(217, 119, 6, 0.4); } }
+
+        /* ন্যাভিগেশন */
+        .nav-link { cursor: pointer; padding: 8px 20px; font-weight: 600; color: #92400e; transition: 0.3s; border-radius: 50px; }
+        .nav-link.active { background: #f59e0b; color: white; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); }
+
+        /* কার্ট ও পপআপ */
+        #cart-modal, #checkout-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .honey-popup { 
+            background: white; padding: 2rem; border-radius: 30px; border: 4px solid #f59e0b; 
+            clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+            width: 300px; height: 300px; display: flex; flex-direction: column; items-center justify-center; text-align: center;
         }
 
-        /* ন্যাভিগেশন স্টাইল */
-        .nav-link {
-            position: relative;
-            cursor: pointer;
-            padding: 8px 20px;
-            font-weight: 600;
-            color: #92400e;
-            transition: all 0.3s;
-            border-radius: 50px;
-        }
-        .nav-link.active {
-            background: #f59e0b;
-            color: white;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-        }
-
-        /* অরিজিনাল এলিমেন্ট স্টাইল */
-        #screen-dimmer {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 9999; pointer-events: none; opacity: 0;
-            transition: opacity 0.1s ease;
-        }
-
-        #honey-stream {
-            position: absolute; width: 140px; height: 140px;
-            top: 75px; left: 50%; transform: translateX(-50%);
-            z-index: 40; pointer-events: none; opacity: 0;
-            filter: brightness(0.9) sepia(1) saturate(10) hue-rotate(-20deg);
-            transition: opacity 0.3s ease;
-        }
-
-        .price-hex {
-            width: 115px; height: 125px;
-            background: #f59e0b;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center; color: white; position: relative;
-        }
-
-        #magic-bee-actor {
-            position: fixed; width: 70px; height: 70px;
-            z-index: 2000; pointer-events: none;
-            transition: transform 0.2s ease;
-        }
-
+        /* মৌমাছি ও অন্যান্য */
+        #magic-bee-actor { position: fixed; width: 70px; height: 70px; z-index: 2000; pointer-events: none; transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); }
         #wand-icon { position: absolute; right: 8px; top: 8px; font-size: 20px; }
-
         .bee-hover { animation: wiggle 2s ease-in-out infinite; }
-        @keyframes wiggle {
-            0%, 100% { transform: translate(0, 0) rotate(0); }
-            25% { transform: translate(10px, -12px) rotate(5deg); }
-            50% { transform: translate(-8px, 8px) rotate(-5deg); }
-            75% { transform: translate(-10px, -4px) rotate(3deg); }
-        }
+        @keyframes wiggle { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(5px, -10px) rotate(5deg); } }
 
-        .price-update-pop { animation: pop 0.6s ease; }
-        @keyframes pop { 50% { transform: scale(1.4); text-shadow: 0 0 10px #fff; } }
-
-        .flying-mission-bee {
-            position: fixed; width: 80px; height: 80px;
-            z-index: 10000; cursor: pointer;
-            pointer-events: auto; user-select: none;
-        }
-
-        .hex-bg-tile {
-            width: 100%; aspect-ratio: 1/1.15;
-            background: #f59e0b;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            transform: scale(0); transition: 0.4s ease; margin: -1px;
-        }
+        .price-hex { width: 115px; height: 125px; background: #f59e0b; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; }
+        #honey-stream { position: absolute; width: 140px; height: 140px; top: 75px; left: 50%; transform: translateX(-50%); z-index: 40; pointer-events: none; opacity: 0; filter: brightness(0.9) sepia(1) saturate(10) hue-rotate(-20deg); transition: 0.3s; }
+        .hex-bg-tile { width: 100%; aspect-ratio: 1/1.15; background: #f59e0b; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); transform: scale(0); transition: 0.4s ease; margin: -1px; }
         .show-grid .hex-bg-tile { transform: scale(1); opacity: 0.85; }
+        
+        /* ড্যাশবোর্ড টেবিল */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f59e0b; color: white; }
     </style>
 </head>
-<body class="flex flex-col items-center pb-20">
+<body class="flex flex-col items-center">
 
-    <div id="screen-dimmer"></div>
+    <div id="screen-dimmer" style="position:fixed; inset:0; background:black; opacity:0; z-index:9999; pointer-events:none; transition:0.2s;"></div>
 
     <nav class="w-full max-w-6xl p-6 flex flex-col md:flex-row justify-between items-center gap-6 sticky top-0 bg-[#fffef2]/90 backdrop-blur-md z-[5000]">
-        <div class="text-2xl font-black text-amber-900 tracking-tighter">
-            TAMJID HONEY <span class="text-amber-500">LAB</span>
-        </div>
-
+        <div class="text-2xl font-black text-amber-900">TAMJID HONEY <span class="text-amber-500">LAB</span></div>
         <div class="flex gap-2 bg-amber-100/50 p-1.5 rounded-full border border-amber-200">
             <div id="nav-product" class="nav-link active" onclick="switchSection('product')">পণ্য</div>
             <div id="nav-about" class="nav-link" onclick="switchSection('about')">পরিচয়</div>
+            <div id="nav-dash" class="nav-link" onclick="switchSection('dashboard')">ড্যাশবোর্ড</div>
         </div>
-        
         <div class="relative flex items-center">
-            <div id="magic-bee-actor">
+            <div id="magic-bee-actor" class="bee-hover">
                 <dotlottie-player src="https://lottie.host/f3154270-0566-4188-9569-481c3d87bed1/oZmOktFfLe.lottie" background="transparent" speed="1" loop autoplay></dotlottie-player>
                 <div id="wand-icon">🪄</div>
             </div>
-            
             <div id="price-honeycomb" class="price-hex">
-                <div class="text-[9px] uppercase font-bold opacity-70 text-center leading-tight">Total Bill</div>
+                <div class="text-[9px] uppercase font-bold opacity-70">Total Bill</div>
                 <div id="bill-display" class="text-lg font-black">৳০</div>
             </div>
-
-            <div id="cart-basket" class="ml-4 bg-white p-4 rounded-2xl shadow-xl relative cursor-pointer z-50">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-amber-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
+            <div id="cart-basket" onclick="openCart()" class="ml-4 bg-white p-4 rounded-2xl shadow-xl relative cursor-pointer z-50">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-amber-800" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                 <span id="qty-badge" class="absolute -top-1 -right-1 bg-amber-600 text-white text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center">0</span>
             </div>
         </div>
     </nav>
 
     <section id="section-product" class="page-section active mt-10">
-        <main class="flex flex-col items-center">
+        <div class="flex flex-col items-center">
             <div class="relative bg-white p-12 rounded-[50px] shadow-2xl text-center max-w-sm w-full border border-amber-50">
                 <div class="relative inline-block mb-10">
                     <div id="honey-pot" class="text-8xl transition-all duration-700 origin-bottom">🍯</div>
-                    <div id="honey-stream">
-                        <dotlottie-player id="pour-lottie" src="https://lottie.host/2d6f0c66-420b-437b-8680-f77e782caac3/wlI5cSMy8l.lottie" background="transparent" speed="1.2"></dotlottie-player>
-                    </div>
+                    <div id="honey-stream"><dotlottie-player id="pour-lottie" src="https://lottie.host/2d6f0c66-420b-437b-8680-f77e782caac3/wlI5cSMy8l.lottie" background="transparent" speed="1.2"></dotlottie-player></div>
                 </div>
-
                 <h2 class="text-2xl font-bold text-gray-800">খাঁটি মধু</h2>
                 <div class="text-amber-600 font-bold text-xl my-2">৳৭৫০</div>
-                
                 <button id="add-to-cart-btn" class="relative w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-5 rounded-2xl transition-all active:scale-95 overflow-hidden">
                     <span class="relative z-10">কার্টে যুক্ত করুন</span>
                     <div id="hex-grid-container" class="absolute inset-0 flex flex-wrap opacity-0 pointer-events-none"></div>
                 </button>
             </div>
-        </main>
+        </div>
     </section>
 
     <section id="section-about" class="page-section mt-10 px-6">
-        <div class="max-w-4xl mx-auto">
-            <div class="bg-white rounded-[50px] shadow-2xl overflow-hidden border border-amber-100 flex flex-col md:flex-row">
-                <div class="md:w-1/3 bg-amber-500 p-10 flex flex-col items-center justify-center text-white text-center">
-                    <div class="w-32 h-32 bg-white/20 rounded-full mb-4 flex items-center justify-center text-5xl">👨‍💻</div>
-                    <h2 class="text-2xl font-black">তামজিদুল ইসলাম অভি</h2>
-                    <p class="text-amber-100 text-sm mt-2 opacity-90">Tamjidul Islam Ovi</p>
-                </div>
-                
-                <div class="md:w-2/3 p-10 md:p-14">
-                    <h3 class="text-amber-600 font-bold text-lg uppercase tracking-widest mb-2">পরিচয়</h3>
-                    <h1 class="text-3xl md:text-4xl font-black text-gray-800 mb-6 leading-tight">
-                        ওয়েব ডেভেলপমেন্ট এক্সপার্ট ও ডিজিটাল ক্রিয়েটর
-                    </h1>
-                    
-                    <p class="text-gray-600 text-lg leading-relaxed mb-8">
-                        আসসালামু আলাইকুম! আমি <span class="font-bold text-amber-900">তামজিদুল ইসলাম অভি</span>। প্রযুক্তির নিখুঁত কোডিং আর সৃজনশীলতার মিশেলে ডিজিটাল অভিজ্ঞতা তৈরি করাই আমার নেশা। একজন ওয়েব ডেভেলপমেন্ট এক্সপার্ট হিসেবে আমি আধুনিক এবং ইন্টারঅ্যাক্টিভ ওয়েবসাইট তৈরিতে দক্ষ, যা ব্যবহারকারীকে এক অনন্য অভিজ্ঞতা দেয়। 
-                    </p>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="flex items-start gap-3 p-4 bg-amber-50 rounded-2xl">
-                            <span class="text-2xl">🚀</span>
-                            <div>
-                                <h4 class="font-bold text-gray-800">এক্সপার্ট কোডিং</h4>
-                                <p class="text-xs text-gray-500">React, Tailwind, Modern JS</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3 p-4 bg-amber-50 rounded-2xl">
-                            <span class="text-2xl">🎨</span>
-                            <div>
-                                <h4 class="font-bold text-gray-800">ডিজিটাল ক্রিয়েশন</h4>
-                                <p class="text-xs text-gray-500">UI/UX & Creative Concepts</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="max-w-4xl mx-auto bg-white rounded-[50px] shadow-2xl overflow-hidden border border-amber-100 flex flex-col md:flex-row">
+            <div class="md:w-1/3 bg-amber-500 p-10 flex flex-col items-center justify-center text-white text-center">
+                <div class="w-32 h-32 bg-white/20 rounded-full mb-4 flex items-center justify-center text-5xl">👨‍💻</div>
+                <h2 class="text-2xl font-black">তামজিদুল ইসলাম <span id="nickname-ovi">অভি</span></h2>
+                <p class="mt-4 text-xs">tamjidulislamovi@gmail.com</p>
             </div>
-            
-            <div class="mt-8 text-center text-gray-400 text-sm">
-                &copy; 2024 Tamjidul Islam Ovi | Built with Love and Code
+            <div class="md:w-2/3 p-10">
+                <h1 class="text-3xl font-black text-gray-800 mb-6">ওয়েব ডেভেলপমেন্ট এক্সপার্ট ও ডিজিটাল ক্রিয়েটর</h1>
+                <p class="text-gray-600 text-lg leading-relaxed">আমি কোডিং এবং ডিজাইনের মাধ্যমে চমৎকার ডিজিটাল অভিজ্ঞতা তৈরিতে বিশ্বাসী। আপনার স্বপ্নকে বাস্তবে রূপ দিতে আমি সদা প্রস্তুত।</p>
             </div>
         </div>
     </section>
 
+    <section id="section-dashboard" class="page-section mt-10 px-6">
+        <div class="bg-white p-8 rounded-3xl shadow-xl">
+            <h2 class="text-2xl font-bold text-amber-900 mb-4">অর্ডার ড্যাশবোর্ড (Personal)</h2>
+            <div class="overflow-x-auto">
+                <table id="order-table">
+                    <thead><tr><th>ID</th><th>পণ্য</th><th>পরিমাণ</th><th>মোট</th><th>জেলা</th><th>উপজেলা</th><th>ঠিকানা</th></tr></thead>
+                    <tbody id="order-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <div id="cart-modal">
+        <div class="bg-white p-8 rounded-3xl w-80 text-center relative">
+            <h3 class="text-xl font-bold mb-4">আপনার কার্ট</h3>
+            <div id="cart-items-list" class="mb-4 text-gray-600"></div>
+            <button onclick="openCheckout()" class="w-full bg-amber-600 text-white py-3 rounded-xl font-bold">অর্ডার করুন</button>
+            <button onclick="closeModal('cart-modal')" class="mt-3 text-sm text-gray-400">বন্ধ করুন</button>
+        </div>
+    </div>
+
+    <div id="checkout-modal">
+        <div class="bg-white p-8 rounded-3xl w-full max-w-md shadow-2xl">
+            <h3 class="text-2xl font-bold mb-6 text-amber-900 text-center">চেকআউট (ক্যাশ অন ডেলিভারি)</h3>
+            <div class="space-y-4">
+                <select id="district-select" class="w-full p-3 border rounded-xl bg-gray-50"></select>
+                <input type="text" id="upazila-input" placeholder="আপনার উপজেলা টাইপ করুন" class="w-full p-3 border rounded-xl">
+                <textarea id="address-input" placeholder="বিস্তারিত ঠিকানা (গ্রাম/পাড়া/বাসা নং)" class="w-full p-3 border rounded-xl"></textarea>
+                <button onclick="confirmOrder()" class="w-full bg-green-600 text-white py-4 rounded-xl font-bold text-lg">অর্ডার নিশ্চিত করুন</button>
+                <button onclick="closeModal('checkout-modal')" class="w-full text-gray-400 mt-2">বাতিল করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="success-popup" style="display:none; position:fixed; inset:0; z-index:11000; align-items:center; justify-content:center;">
+        <div class="honey-popup">
+            <div class="text-5xl mb-2">🍯</div>
+            <h2 class="text-2xl font-black text-amber-900">ধন্যবাদ!</h2>
+            <p class="text-sm font-bold text-amber-700">অর্ডার সফল হয়েছে</p>
+        </div>
+    </div>
+
     <script>
-        function switchSection(sectionName) {
-            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-
-            if(sectionName === 'product') {
-                document.getElementById('section-product').classList.add('active');
-                document.getElementById('nav-product').classList.add('active');
-            } else {
-                document.getElementById('section-about').classList.add('active');
-                document.getElementById('nav-about').classList.add('active');
-            }
-            setTimeout(parkBeeAtHome, 100);
-        }
-
-        let itemsCount = 0, billSum = 0;
+        const districts = ["বাগেরহাট", "বান্দরবান", "বরগুনা", "বরিশাল", "ভোলা", "বগুড়া", "ব্রাহ্মণবাড়িয়া", "চাঁদপুর", "চাঁপাইনবাবগঞ্জ", "চট্টগ্রাম", "চুয়াডাঙ্গা", "কুমিল্লা", "কক্সবাজার", "ঢাকা", "দিনাজপুর", "ফরিদপুর", "ফেনী", "গাইবান্ধা", "গাজীপুর", "গোপালগঞ্জ", "হবিগঞ্জ", "জামালপুর", "যশোর", "ঝালকাঠি", "ঝিনাইদহ", "জয়পুরহাট", "খাগড়াছড়ি", "খুলনা", "কিশোরগঞ্জ", "কুড়িগ্রাম", "কুষ্টিয়া", "লক্ষ্মীপুর", "লালমনিরহাট", "মাদারীপুর", "মাগুরা", "মানিকগঞ্জ", "মেহেরপুর", "মৌলভীবাজার", "মুন্সীগঞ্জ", "ময়মনসিংহ", "নওগাঁ", "নড়াইল", "নারায়ণগঞ্জ", "নরসিংদী", "নাটোর", "নেত্রকোণা", "নীলফামারী", "নোয়াখালী", "পাবনা", "পঞ্চগড়", "পটুয়াখালী", "রাজবাড়ী", "রাজশাহী", "রাঙ্গামাটি", "রংপুর", "সাতক্ষীরা", "শরীয়তপুর", "শেরপুর", "সিরাজগঞ্জ", "সুনামগঞ্জ", "সিলেট", "টাঙ্গাইল", "ঠাকুরগাঁও"];
+        
+        let itemsCount = 0, billSum = 0, currentSection = 'product', idleTimer;
         const UNIT_PRICE = 750;
-        const beeActor = document.getElementById('magic-bee-actor');
+
+        // মৌমাছি কন্ট্রোল
+        const bee = document.getElementById('magic-bee-actor');
         const priceTag = document.getElementById('price-honeycomb');
         const buyBtn = document.getElementById('add-to-cart-btn');
-        const dimmer = document.getElementById('screen-dimmer');
 
-        function parkBeeAtHome() {
+        function parkBee() {
+            if(currentSection !== 'product') {
+                bee.style.left = '20px'; bee.style.top = '20px';
+                return;
+            }
             const rect = priceTag.getBoundingClientRect();
-            beeActor.style.left = (rect.left - 55) + 'px';
-            beeActor.style.top = (rect.top - 15) + 'px';
-            beeActor.classList.add('bee-hover');
+            bee.style.left = (rect.left - 55) + 'px';
+            bee.style.top = (rect.top - 15) + 'px';
         }
 
-        function triggerDimEffect() {
-            dimmer.style.opacity = '1';
-            setTimeout(() => { dimmer.style.opacity = '0'; }, 500);
+        function resetIdleTimer() {
+            clearTimeout(idleTimer);
+            if(currentSection === 'product') {
+                idleTimer = setTimeout(() => {
+                    const btnRect = buyBtn.getBoundingClientRect();
+                    bee.style.left = (btnRect.left + btnRect.width/2 - 35) + 'px';
+                    bee.style.top = (btnRect.top - 80) + 'px';
+                }, 10000);
+            }
         }
 
-        buyBtn.addEventListener('click', function() {
+        // সেকশন সুইচ
+        function switchSection(name) {
+            currentSection = name;
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.getElementById('section-' + name).classList.add('active');
+            document.getElementById('nav-' + (name === 'dashboard' ? 'dash' : name)).classList.add('active');
+            
+            const nickname = document.getElementById('nickname-ovi');
+            name === 'about' ? nickname.classList.add('nickname-pulse') : nickname.classList.remove('nickname-pulse');
+            
+            parkBee();
+            resetIdleTimer();
+            if(name === 'dashboard') updateDashboard();
+        }
+
+        // কার্ট লজিক
+        buyBtn.onclick = () => {
+            resetIdleTimer();
             const jar = document.getElementById('honey-pot'), stream = document.getElementById('honey-stream');
-            const lottie = document.getElementById('pour-lottie'), gLayer = document.getElementById('hex-grid-container');
-
+            const lottie = document.getElementById('pour-lottie'), grid = document.getElementById('hex-grid-container');
+            
             jar.style.transform = 'translateX(54px) rotate(-55deg)';
+            setTimeout(() => { stream.style.opacity = '1'; lottie.seek(0); lottie.play(); grid.style.opacity = '1'; grid.classList.add('show-grid'); }, 350);
+            
             setTimeout(() => {
-                stream.style.opacity = '1'; lottie.seek(0); lottie.play();
-                gLayer.style.opacity = '1'; gLayer.classList.add('show-grid');
-            }, 350);
-
-            setTimeout(() => {
-                const btnPos = this.getBoundingClientRect();
-                startDeliveryBee(btnPos.left + btnPos.width/2, btnPos.top + btnPos.height/2);
-                setTimeout(() => {
-                    jar.style.transform = 'translateX(0) rotate(0)';
-                    stream.style.opacity = '0'; gLayer.style.opacity = '0'; gLayer.classList.remove('show-grid');
-                }, 1600);
+                const btnPos = buyBtn.getBoundingClientRect();
+                createFlyingBee(btnPos.left + btnPos.width/2, btnPos.top + btnPos.height/2);
+                setTimeout(() => { jar.style.transform = 'rotate(0)'; stream.style.opacity = '0'; grid.classList.remove('show-grid'); }, 1600);
             }, 800);
-        });
+        };
 
-        function startDeliveryBee(x1, y1) {
-            const bee = document.createElement('div');
-            bee.className = 'flying-mission-bee';
-            bee.innerHTML = `<dotlottie-player src="https://lottie.host/f3154270-0566-4188-9569-481c3d87bed1/oZmOktFfLe.lottie" background="transparent" speed="1.5" loop autoplay style="width:100%; height:100%;"></dotlottie-player>`;
-            document.body.appendChild(bee);
-
-            const cart = document.getElementById('cart-basket'), cp = cart.getBoundingClientRect();
-            const x2 = cp.left + cp.width/2, y2 = cp.top + cp.height/2;
-
-            let start = null, isDead = false, vY = 0; 
-            const duration = 2000;
-
-            bee.onmousedown = (e) => {
-                e.preventDefault();
-                if(!isDead) {
-                    isDead = true;
-                    triggerDimEffect();
-                    bee.querySelector('dotlottie-player').stop();
-                    bee.style.transition = "transform 0.3s ease-in";
-                    bee.style.transform = "rotate(180deg) scale(0.8)";
-                }
+        function createFlyingBee(x1, y1) {
+            const fb = document.createElement('div');
+            fb.style.cssText = `position:fixed; width:80px; height:80px; z-index:10000; cursor:pointer; pointer-events:auto;`;
+            fb.innerHTML = `<dotlottie-player src="https://lottie.host/f3154270-0566-4188-9569-481c3d87bed1/oZmOktFfLe.lottie" background="transparent" speed="1.5" loop autoplay style="width:100%; height:100%"></dotlottie-player>`;
+            document.body.appendChild(fb);
+            
+            const cart = document.getElementById('cart-basket').getBoundingClientRect();
+            let start = null, isDead = false;
+            
+            fb.onmousedown = () => {
+                isDead = true;
+                document.getElementById('screen-dimmer').style.opacity = "1";
+                setTimeout(() => document.getElementById('screen-dimmer').style.opacity = "0", 500);
+                fb.style.transition = "all 0.5s ease-in"; fb.style.transform = "translateY(100vh) rotate(180deg)";
+                setTimeout(() => fb.remove(), 500);
             };
 
-            function update(t) {
-                if (!start) start = t;
-                const p = (t - start) / duration;
-                if (!isDead) {
-                    if (p < 1) {
-                        const curX = x1 + (x2 - x1) * p;
-                        const curY = y1 + (y2 - y1) * p;
-                        const arc = Math.sin(p * Math.PI) * -150; 
-                        bee.style.left = (curX - 40) + 'px';
-                        bee.style.top = (curY + arc - 40) + 'px';
-                        bee.style.transform = `scale(${1 + Math.sin(p * Math.PI) * 0.2})`;
-                        requestAnimationFrame(update);
-                    } else { bee.remove(); runMagicUpdate(); }
-                } else {
-                    vY += 0.8; 
-                    const currentTop = parseFloat(bee.style.top) || 0;
-                    bee.style.top = (currentTop + vY) + 'px';
-                    if (currentTop < window.innerHeight) requestAnimationFrame(update); else bee.remove();
-                }
+            function anim(t) {
+                if(!start) start = t;
+                const p = (t-start)/2000;
+                if(p < 1 && !isDead) {
+                    fb.style.left = (x1 + (cart.left - x1)*p) + 'px';
+                    fb.style.top = (y1 + (cart.top - y1)*p + Math.sin(p*Math.PI)*-150) + 'px';
+                    requestAnimationFrame(anim);
+                } else if(!isDead) { fb.remove(); updateUI(); }
             }
-            requestAnimationFrame(update);
+            requestAnimationFrame(anim);
         }
 
-        function runMagicUpdate() {
-            const val = document.getElementById('bill-display'), qty = document.getElementById('qty-badge');
+        function updateUI() {
             itemsCount++; billSum += UNIT_PRICE;
-            qty.innerText = itemsCount; val.innerText = `৳${billSum}`;
-            val.classList.add('price-update-pop');
-            setTimeout(() => { val.classList.remove('price-update-pop'); }, 800);
+            document.getElementById('qty-badge').innerText = itemsCount;
+            const bd = document.getElementById('bill-display');
+            bd.innerText = `৳${billSum}`;
+            bd.classList.add('price-update-pop');
+            setTimeout(() => bd.classList.remove('price-update-pop'), 600);
         }
 
-        window.onload = parkBeeAtHome;
-        window.onresize = parkBeeAtHome;
-
-        const grid = document.getElementById('hex-grid-container');
-        for(let i=0; i<40; i++) {
-            const h = document.createElement('div');
-            h.className = 'hex-bg-tile';
-            h.style.transitionDelay = (Math.random() * 0.3) + 's';
-            grid.appendChild(h);
+        // মোডাল ও ডিস্ট্রিক্ট সেটআপ
+        function openCart() {
+            if(itemsCount === 0) return alert("কার্ট খালি!");
+            document.getElementById('cart-items-list').innerText = `খাঁটি মধু - ${itemsCount} টি`;
+            document.getElementById('cart-modal').style.display = 'flex';
         }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function openCheckout() { closeModal('cart-modal'); document.getElementById('checkout-modal').style.display = 'flex'; }
+
+        // জেলা তালিকা লোড
+        const distSelect = document.getElementById('district-select');
+        distSelect.innerHTML = `<option value="">জেলা নির্বাচন করুন</option>` + districts.map(d => `<option value="${d}">${d}</option>`).join('');
+
+        // অর্ডার কনফার্ম
+        function confirmOrder() {
+            const dist = distSelect.value;
+            const upa = document.getElementById('upazila-input').value;
+            const addr = document.getElementById('address-input').value;
+
+            if(!dist || !upa || !addr) return alert("সব তথ্য পূরণ করুন!");
+
+            const order = {
+                id: Date.now(),
+                product: "খাঁটি মধু",
+                qty: itemsCount,
+                total: billSum,
+                district: dist,
+                upazila: upa,
+                address: addr
+            };
+
+            let orders = JSON.parse(localStorage.getItem('orders') || "[]");
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            closeModal('checkout-modal');
+            const pop = document.getElementById('success-popup');
+            pop.style.display = 'flex';
+            setTimeout(() => { 
+                pop.style.display = 'none';
+                itemsCount = 0; billSum = 0; updateUI(); 
+                document.getElementById('qty-badge').innerText = "0";
+                document.getElementById('bill-display').innerText = "৳০";
+            }, 1000);
+        }
+
+        function updateDashboard() {
+            const orders = JSON.parse(localStorage.getItem('orders') || "[]");
+            const body = document.getElementById('order-body');
+            body.innerHTML = orders.reverse().map(o => `
+                <tr>
+                    <td>#${o.id.toString().slice(-4)}</td>
+                    <td>${o.product}</td>
+                    <td>${o.qty}</td>
+                    <td>৳${o.total}</td>
+                    <td>${o.district}</td>
+                    <td>${o.upazila}</td>
+                    <td>${o.address}</td>
+                </tr>
+            `).join('');
+        }
+
+        // ইনিশিয়ালাইজেশন
+        window.onload = () => {
+            parkBee();
+            resetIdleTimer();
+            const grid = document.getElementById('hex-grid-container');
+            for(let i=0; i<40; i++) {
+                const h = document.createElement('div'); h.className = 'hex-bg-tile';
+                h.style.transitionDelay = (Math.random() * 0.3) + 's';
+                grid.appendChild(h);
+            }
+        };
+        window.onresize = parkBee;
+        window.onclick = resetIdleTimer;
     </script>
 </body>
 </html>
