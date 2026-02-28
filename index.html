@@ -95,6 +95,7 @@
                 <dotlottie-player src="https://lottie.host/f3154270-0566-4188-9569-481c3d87bed1/oZmOktFfLe.lottie" background="transparent" speed="1" loop autoplay></dotlottie-player>
                 <div style="position:absolute; right:8px; top:8px; font-size:20px;">🪄</div>
             </div>
+            
             <div id="price-honeycomb" class="price-hex">
                 <div class="text-[9px] uppercase font-bold opacity-70">Total Bill</div>
                 <div id="bill-display" class="text-lg font-black">৳০</div>
@@ -340,14 +341,23 @@
             `).join('');
         }
 
-        // মৌমাছি পার্কিং ও এনিমেশন রিসেট
+        // মৌমাছি পার্কিং লজিক
         function parkBee() {
+            if (!beeActor || !billBox) return;
             beeActor.classList.remove('bee-orbit');
+            
             if(currentView !== 'product') {
                 beeActor.style.left = '20px'; beeActor.style.top = '20px';
                 return;
             }
+            
             const rect = billBox.getBoundingClientRect();
+            // স্ক্রিন লোড হতে দেরি হলে যদি rect 0 হয় তবে ট্রাই করা বন্ধ করবেনা
+            if (rect.left === 0 && rect.top === 0) {
+                setTimeout(parkBee, 100);
+                return;
+            }
+            
             beeActor.style.left = (rect.left - 60) + 'px';
             beeActor.style.top = (rect.top - 15) + 'px';
         }
@@ -355,7 +365,7 @@
         function startIdleBee() {
             clearTimeout(idleBeeTimer);
             parkBee();
-            // এখানে ৫ সেকেন্ড পর নিচে নেমে যাওয়ার লজিকটি মুছে ফেলা হয়েছে
+            // এখানে ৫ সেকেন্ড পর নিচে নামার লজিকটি বাদ দেওয়া হয়েছে যাতে মৌমাছিটি সবসময় ওখানেই থাকে।
         }
 
         function switchSection(id) {
@@ -579,7 +589,8 @@
 
         window.onload = () => {
             initProducts();
-            parkBee(); 
+            // লোড হওয়ার সাথে সাথে মৌমাছিটিকে সঠিক জায়গায় বসানোর জন্য
+            setTimeout(parkBee, 200); 
             startIdleBee();
             
             // Background Hex Grid
