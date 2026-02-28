@@ -18,65 +18,56 @@
         .page-section.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* নিকনেম ও এনিমেশন */
-        #nickname { color: black; cursor: pointer; display: inline-block; font-weight: 900; }
+        /* নিকনেম ও পিন মোডাল */
+        #nickname { color: black; cursor: pointer; display: inline-block; font-weight: 900; transition: transform 0.3s; }
         .nickname-pulse { animation: pulse 0.5s ease-in-out infinite alternate; }
         @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.2); } }
 
-        /* ন্যাভিগেশন */
-        .nav-link { cursor: pointer; padding: 8px 20px; font-weight: 600; color: #92400e; transition: 0.3s; border-radius: 50px; }
-        .nav-link.active { background: #f59e0b; color: white; }
-
-        /* মৌমাছি Orbit মেকানিজম */
+        /* মৌমাছি অরবিট মেকানিজম */
         #magic-bee-actor { 
             position: fixed; width: 75px; height: 75px; z-index: 2000; pointer-events: none; 
             transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1), top 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* বাটনের চারদিকে ঘোরার এনিমেশন */
         .bee-orbit { animation: orbit 4s linear infinite; }
         @keyframes orbit {
-            from { transform: rotate(0deg) translateX(90px) rotate(0deg); }
-            to { transform: rotate(360deg) translateX(90px) rotate(-360deg); }
+            from { transform: rotate(0deg) translateX(95px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(95px) rotate(-360deg); }
         }
 
         .price-hex { width: 110px; height: 120px; background: #f59e0b; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; }
-        #honey-stream { position: absolute; width: 140px; height: 140px; top: 75px; left: 50%; transform: translateX(-50%); z-index: 40; pointer-events: none; opacity: 0; filter: brightness(0.9) sepia(1) saturate(10) hue-rotate(-20deg); transition: 0.3s; }
         
+        /* ভিডিও কন্টেইনার */
+        #honey-video-container { width: 220px; height: 220px; overflow: hidden; border-radius: 40px; margin: 0 auto 20px; position: relative; }
+        #honey-video { width: 100%; height: 100%; object-fit: cover; }
+
         .hex-bg-tile { width: 100%; aspect-ratio: 1/1.15; background: #f59e0b; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); transform: scale(0); transition: 0.4s ease; }
         .show-grid .hex-bg-tile { transform: scale(1); opacity: 0.85; }
 
         /* ATM PIN Modal */
-        #pin-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 12000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .atm-box { background: #1a1a1a; padding: 30px; border-radius: 30px; width: 320px; border: 4px solid #333; animation: slideUp 0.4s ease; }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        
-        .pin-display { background: #000; color: #0f0; font-family: monospace; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2rem; border-radius: 10px; margin-bottom: 20px; letter-spacing: 8px; border: 2px solid #333; }
+        #pin-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 12000; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        .atm-box { background: #1a1a1a; padding: 30px; border-radius: 40px; width: 320px; border: 4px solid #333; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        .pin-display { background: #000; color: #0f0; font-family: monospace; height: 65px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; border-radius: 15px; margin-bottom: 25px; letter-spacing: 10px; border: 2px solid #222; }
         .pin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .pin-btn { background: #333; color: white; padding: 15px; border-radius: 15px; font-weight: bold; font-size: 1.2rem; transition: 0.2s; text-align: center; cursor: pointer; }
+        .pin-btn { background: #262626; color: white; padding: 18px; border-radius: 20px; font-weight: bold; font-size: 1.3rem; cursor: pointer; user-select: none; transition: 0.1s; border: 1px solid #333; text-align: center; }
         .pin-btn:active { background: #f59e0b; transform: scale(0.9); }
         .btn-ok { background: #059669; }
         .btn-del { background: #dc2626; }
 
         /* Success Honeycomb Popup */
-        #success-popup { display:none; position:fixed; inset:0; z-index:11000; align-items:center; justify-content:center; }
-        .honey-popup-box { 
-            background: #f59e0b; color: white; padding: 40px; 
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            width: 280px; height: 310px; text-align: center; display: flex; flex-direction: column; justify-content: center;
-        }
+        #success-popup { display:none; position:fixed; inset:0; z-index:11000; align-items:center; justify-content:center; background: rgba(255, 254, 242, 0.7); }
+        .honey-popup-box { background: #f59e0b; color: white; padding: 40px; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); width: 280px; height: 310px; text-align: center; display: flex; flex-direction: column; justify-content: center; animation: popUp 0.3s ease-out; }
+        @keyframes popUp { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body class="flex flex-col items-center">
 
     <nav class="w-full max-w-6xl p-6 flex flex-col md:flex-row justify-between items-center gap-6 sticky top-0 bg-[#fffef2]/90 backdrop-blur-md z-[5000]">
         <div class="text-2xl font-black text-amber-900 tracking-tighter">TAMJID HONEY <span class="text-amber-500">LAB</span></div>
-        
         <div class="flex gap-2 bg-amber-100/50 p-1.5 rounded-full border border-amber-200">
             <div id="nav-product" class="nav-link active" onclick="switchSection('product')">পণ্য</div>
             <div id="nav-about" class="nav-link" onclick="switchSection('about')">পরিচয়</div>
         </div>
-
         <div class="relative flex items-center">
             <div id="magic-bee-actor">
                 <dotlottie-player src="https://lottie.host/f3154270-0566-4188-9569-481c3d87bed1/oZmOktFfLe.lottie" background="transparent" speed="1" loop autoplay></dotlottie-player>
@@ -96,10 +87,12 @@
     <section id="section-product" class="page-section active mt-10">
         <div class="flex flex-col items-center">
             <div class="relative bg-white p-12 rounded-[50px] shadow-2xl text-center max-w-sm w-full border border-amber-50">
-                <div class="relative inline-block mb-10">
-                    <div id="honey-pot" class="text-8xl transition-all duration-700 origin-bottom">🍯</div>
-                    <div id="honey-stream"><dotlottie-player id="pour-lottie" src="https://lottie.host/2d6f0c66-420b-437b-8680-f77e782caac3/wlI5cSMy8l.lottie" background="transparent" speed="1.2"></dotlottie-player></div>
+                <div id="honey-video-container">
+                    <video id="honey-video" muted playsinline preload="auto">
+                        <source src="https://drive.google.com/uc?export=download&id=12vnXdGriK2jUXCp-2Q7AwqRKy6qv4vwR" type="video/mp4">
+                    </video>
                 </div>
+
                 <h2 class="text-2xl font-bold text-gray-800">খাঁটি মধু</h2>
                 <div class="text-amber-600 font-bold text-2xl my-2">৳৭৫০</div>
                 <button id="add-to-cart-btn" class="relative w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-5 rounded-2xl transition-all active:scale-95 overflow-hidden">
@@ -118,7 +111,7 @@
                 <p class="mt-4 text-xs font-mono opacity-80">tamjidulislamovi@gmail.com</p>
             </div>
             <div class="md:w-2/3 p-10 md:p-16">
-                <h1 class="text-3xl font-black text-gray-800 mb-6 uppercase tracking-tighter">ওয়েব ডেভেলপমেন্ট এক্সপার্ট ও ডিজিটাল ক্রিয়েটর</h1>
+                <h1 class="text-3xl font-black text-gray-800 mb-6">ওয়েব ডেভেলপমেন্ট এক্সপার্ট ও ডিজিটাল ক্রিয়েটর</h1>
                 <p class="text-gray-600 text-lg leading-relaxed">আসসালামু আলাইকুম! আমি তামজিদুল ইসলাম অভি। আমি কোডিং এবং সৃজনশীলতার মাধ্যমে চমৎকার ডিজিটাল এক্সপেরিয়েন্স তৈরি করি।</p>
             </div>
         </div>
@@ -126,14 +119,14 @@
 
     <section id="section-cart" class="page-section mt-10">
         <div class="max-w-2xl mx-auto bg-white p-8 md:p-12 rounded-[40px] shadow-xl border border-amber-100">
-            <h2 class="text-3xl font-black text-amber-900 mb-8 border-b pb-4">আপনার কার্ট 🛒</h2>
+            <h2 class="text-3xl font-black text-amber-900 mb-8 border-b pb-4 text-center">আপনার কার্ট 🛒</h2>
             <div id="cart-content-area" class="space-y-6"></div>
-            <div id="cart-footer" class="mt-10 pt-6 border-t hidden">
+            <div id="cart-footer" class="mt-10 pt-6 border-t hidden text-center">
                 <div class="flex justify-between text-2xl font-black text-gray-800 mb-8">
                     <span>সর্বমোট:</span>
                     <span id="cart-total-bill">৳০</span>
                 </div>
-                <button onclick="switchSection('checkout')" class="w-full bg-amber-600 text-white py-5 rounded-2xl font-black text-xl hover:bg-amber-700 transition-all shadow-lg shadow-amber-200">অর্ডার সম্পন্ন করুন</button>
+                <button onclick="switchSection('checkout')" class="w-full bg-amber-600 text-white py-5 rounded-2xl font-black text-xl hover:bg-amber-700 transition-all">অর্ডার সম্পন্ন করুন</button>
             </div>
         </div>
     </section>
@@ -145,24 +138,21 @@
                 <select id="districts-list" class="w-full p-4 border-2 border-amber-50 rounded-2xl bg-amber-50/30 outline-none focus:border-amber-400"></select>
                 <input type="text" id="upazila-name" placeholder="আপনার উপজেলা" class="w-full p-4 border-2 border-amber-50 rounded-2xl bg-amber-50/30 outline-none focus:border-amber-400">
                 <textarea id="full-address" placeholder="বিস্তারিত ঠিকানা..." class="w-full p-4 border-2 border-amber-50 rounded-2xl bg-amber-50/30 outline-none focus:border-amber-400 h-24"></textarea>
-                <button onclick="placeFinalOrder()" class="w-full bg-green-600 text-white py-5 rounded-2xl font-black text-xl hover:bg-green-700 transition-all shadow-xl">অর্ডার কনফার্ম করুন</button>
+                <button onclick="placeFinalOrder()" class="w-full bg-green-600 text-white py-5 rounded-2xl font-black text-xl hover:bg-green-700 transition-all">অর্ডার কনফার্ম করুন</button>
             </div>
         </div>
     </section>
 
     <section id="section-dashboard" class="page-section mt-10">
         <div class="bg-white p-8 rounded-3xl shadow-xl overflow-x-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-black text-amber-900">অর্ডার ড্যাশবোর্ড (Private)</h2>
-                <button onclick="localStorage.removeItem('ovi_orders'); loadDashboard();" class="text-xs text-red-500">Reset</button>
-            </div>
+            <h2 class="text-2xl font-black text-amber-900 mb-6">অর্ডার ড্যাশবোর্ড (Private)</h2>
             <table class="w-full text-left">
                 <thead>
                     <tr class="bg-amber-100 text-amber-900"><th class="p-4">সময়</th><th class="p-4">পণ্য</th><th class="p-4">টাকা</th><th class="p-4">জেলা</th><th class="p-4">ঠিকানা</th></tr>
                 </thead>
                 <tbody id="dashboard-table-body"></tbody>
             </table>
-            <button onclick="switchSection('product')" class="mt-6 text-sm text-gray-400 underline">ব্যাক টু ওয়েবসাইট</button>
+            <button onclick="switchSection('product')" class="mt-6 text-sm text-gray-400 underline">ব্যাক টু হোম</button>
         </div>
     </section>
 
@@ -170,18 +160,10 @@
         <div class="atm-box">
             <div class="pin-display" id="pin-dots"></div>
             <div class="pin-grid">
-                <div class="pin-btn" onclick="pressKey('1')">1</div>
-                <div class="pin-btn" onclick="pressKey('2')">2</div>
-                <div class="pin-btn" onclick="pressKey('3')">3</div>
-                <div class="pin-btn" onclick="pressKey('4')">4</div>
-                <div class="pin-btn" onclick="pressKey('5')">5</div>
-                <div class="pin-btn" onclick="pressKey('6')">6</div>
-                <div class="pin-btn" onclick="pressKey('7')">7</div>
-                <div class="pin-btn" onclick="pressKey('8')">8</div>
-                <div class="pin-btn" onclick="pressKey('9')">9</div>
-                <div class="pin-btn btn-del" onclick="pressKey('DEL')">DEL</div>
-                <div class="pin-btn" onclick="pressKey('0')">0</div>
-                <div class="pin-btn btn-ok" onclick="pressKey('OK')">OK</div>
+                <div class="pin-btn" onclick="pressKey('1')">1</div><div class="pin-btn" onclick="pressKey('2')">2</div><div class="pin-btn" onclick="pressKey('3')">3</div>
+                <div class="pin-btn" onclick="pressKey('4')">4</div><div class="pin-btn" onclick="pressKey('5')">5</div><div class="pin-btn" onclick="pressKey('6')">6</div>
+                <div class="pin-btn" onclick="pressKey('7')">7</div><div class="pin-btn" onclick="pressKey('8')">8</div><div class="pin-btn" onclick="pressKey('9')">9</div>
+                <div class="pin-btn btn-del" onclick="pressKey('DEL')">DEL</div><div class="pin-btn" onclick="pressKey('0')">0</div><div class="pin-btn btn-ok" onclick="pressKey('OK')">OK</div>
             </div>
             <button onclick="closePinModal()" class="w-full mt-4 text-gray-500 text-sm">Cancel</button>
         </div>
@@ -204,10 +186,11 @@
         const beeActor = document.getElementById('magic-bee-actor');
         const billBox = document.getElementById('price-honeycomb');
         const buyBtn = document.getElementById('add-to-cart-btn');
+        const honeyVideo = document.getElementById('honey-video');
 
-        // মৌমাছি পার্কিং ও এনিমেশন রিসেট
+        // মৌমাছি পার্কিং ও অরবিট
         function parkBee() {
-            beeActor.classList.remove('bee-orbit'); // Orbit বন্ধ
+            beeActor.classList.remove('bee-orbit');
             if(currentView !== 'product') {
                 beeActor.style.left = '20px'; beeActor.style.top = '20px';
                 return;
@@ -217,19 +200,15 @@
             beeActor.style.top = (rect.top - 15) + 'px';
         }
 
-        // ৫ সেকেন্ড অলস থাকলে মৌমাছি ঘুরঘুর করবে
         function startIdleBee() {
             clearTimeout(idleBeeTimer);
-            parkBee(); // শুরুতে পার্কে যাবে
+            parkBee();
             if(currentView === 'product') {
                 idleBeeTimer = setTimeout(() => {
                     const btnRect = buyBtn.getBoundingClientRect();
-                    // বাটনের ঠিক মাঝখানে যাবে এবং Orbit শুরু করবে
                     beeActor.style.left = (btnRect.left + btnRect.width/2 - 37) + 'px';
                     beeActor.style.top = (btnRect.top + btnRect.height/2 - 37) + 'px';
-                    setTimeout(() => {
-                        if(currentView === 'product') beeActor.classList.add('bee-orbit');
-                    }, 800);
+                    setTimeout(() => { if(currentView === 'product') beeActor.classList.add('bee-orbit'); }, 800);
                 }, 5000);
             }
         }
@@ -240,55 +219,44 @@
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             document.getElementById('section-' + id).classList.add('active');
             if(id === 'product' || id === 'about') document.getElementById('nav-' + id).classList.add('active');
-
+            
             const nick = document.getElementById('nickname');
             id === 'about' ? nick.classList.add('nickname-pulse') : nick.classList.remove('nickname-pulse');
 
             if(id === 'cart') renderCart();
             if(id === 'dashboard') loadDashboard();
-            
             startIdleBee();
             window.scrollTo(0,0);
         }
 
-        // ATM PIN লজিক
+        // পিন প্যাড লজিক
         function openPinModal() { document.getElementById('pin-modal').style.display = 'flex'; currentPin = ""; updatePinDisplay(); }
         function closePinModal() { document.getElementById('pin-modal').style.display = 'none'; }
         function updatePinDisplay() { document.getElementById('pin-dots').innerText = "*".repeat(currentPin.length); }
-        
         function pressKey(key) {
-            if(key === 'DEL') {
-                currentPin = currentPin.slice(0, -1);
-            } else if(key === 'OK') {
-                if(currentPin === "20069") {
-                    closePinModal();
-                    switchSection('dashboard');
-                } else {
-                    alert("Wrong password!");
-                    currentPin = "";
-                }
-            } else {
-                if(currentPin.length < 5) currentPin += key;
-            }
+            if(key === 'DEL') currentPin = currentPin.slice(0, -1);
+            else if(key === 'OK') {
+                if(currentPin === "20069") { closePinModal(); switchSection('dashboard'); }
+                else { alert("Wrong password!"); currentPin = ""; }
+            } else if(currentPin.length < 5) currentPin += key;
             updatePinDisplay();
         }
 
-        // কার্টে যোগ করার লজিক
+        // কার্টে যোগ করা ও ভিডিও প্লে
         buyBtn.onclick = () => {
-            const jar = document.getElementById('honey-pot'), stream = document.getElementById('honey-stream');
-            const lottie = document.getElementById('pour-lottie'), grid = document.getElementById('hex-grid-container');
-            
-            // মৌমাছিকে সাথে সাথে পার্কে ফিরিয়ে আনা
             parkBee(); 
             clearTimeout(idleBeeTimer);
+            const grid = document.getElementById('hex-grid-container');
 
-            jar.style.transform = 'translateX(55px) rotate(-55deg)';
-            setTimeout(() => { stream.style.opacity = '1'; lottie.seek(0); lottie.play(); grid.style.opacity = '1'; grid.classList.add('show-grid'); }, 300);
+            // ভিডিও এনিমেশন প্লে
+            honeyVideo.currentTime = 0;
+            honeyVideo.play();
+            grid.style.opacity = '1'; grid.classList.add('show-grid');
             
             setTimeout(() => {
                 const bPos = buyBtn.getBoundingClientRect();
                 createFlyingBee(bPos.left + bPos.width/2, bPos.top + bPos.height/2);
-                setTimeout(() => { jar.style.transform = 'rotate(0)'; stream.style.opacity = '0'; grid.classList.remove('show-grid'); }, 1500);
+                setTimeout(() => { grid.classList.remove('show-grid'); }, 1500);
             }, 800);
         };
 
@@ -331,22 +299,19 @@
         function renderCart() {
             const area = document.getElementById('cart-content-area');
             const footer = document.getElementById('cart-footer');
-            if(cartQty === 0) {
-                area.innerHTML = `<div class="text-center py-20 text-gray-400">কার্ট খালি।</div>`;
-                footer.classList.add('hidden');
-            } else {
+            if(cartQty === 0) { area.innerHTML = `<div class="text-center py-20 text-gray-400">কার্ট খালি।</div>`; footer.classList.add('hidden'); }
+            else {
                 area.innerHTML = `<div class="flex items-center gap-6 p-6 bg-amber-50 rounded-3xl border border-amber-100"><div class="text-4xl">🍯</div><div class="flex-1"><h4 class="font-black text-gray-800 text-xl">খাঁটি মধু</h4><p class="text-amber-600 font-bold">৳৭৫০ x ${cartQty}</p></div><div class="text-xl font-black text-gray-800">৳${totalPrice}</div></div>`;
                 document.getElementById('cart-total-bill').innerText = `৳${totalPrice}`;
                 footer.classList.remove('hidden');
             }
         }
 
-        // জেলা লিস্ট
-        const dSelect = document.getElementById('districts-list');
-        dSelect.innerHTML = `<option value="">জেলা নির্বাচন করুন</option>` + districtArray.map(d => `<option value="${d}">${d}</option>`).join('');
+        // জেলা সেটআপ
+        document.getElementById('districts-list').innerHTML = `<option value="">জেলা নির্বাচন করুন</option>` + districtArray.map(d => `<option value="${d}">${d}</option>`).join('');
 
         function placeFinalOrder() {
-            const dist = dSelect.value, upa = document.getElementById('upazila-name').value, addr = document.getElementById('full-address').value;
+            const dist = document.getElementById('districts-list').value, upa = document.getElementById('upazila-name').value, addr = document.getElementById('full-address').value;
             if(!dist || !upa || !addr) return alert("তথ্য পূরণ করুন!");
 
             const order = { time: new Date().toLocaleString('bn-BD'), product: `মধু (${cartQty})`, amount: totalPrice, district: dist, address: `${upa}, ${addr}` };
@@ -355,18 +320,12 @@
 
             const pop = document.getElementById('success-popup');
             pop.style.display = 'flex';
-            setTimeout(() => {
-                pop.style.display = 'none';
-                cartQty = 0; totalPrice = 0;
-                document.getElementById('qty-badge').innerText = "0";
-                document.getElementById('bill-display').innerText = "৳০";
-                switchSection('product');
-            }, 1000);
+            setTimeout(() => { pop.style.display = 'none'; cartQty = 0; totalPrice = 0; updateCartCounter(); document.getElementById('qty-badge').innerText = "0"; document.getElementById('bill-display').innerText = "৳০"; switchSection('product'); }, 1200);
         }
 
         function loadDashboard() {
             const orders = JSON.parse(localStorage.getItem('ovi_orders') || "[]");
-            document.getElementById('dashboard-table-body').innerHTML = orders.reverse().map(o => `<tr class="border-b"><td class="p-4 text-xs">${o.time}</td><td class="p-4 font-bold">${o.product}</td><td class="p-4 text-green-600">৳${o.amount}</td><td class="p-4">${o.district}</td><td class="p-4 text-xs">${o.address}</td></tr>`).join('');
+            document.getElementById('dashboard-table-body').innerHTML = orders.reverse().map(o => `<tr class="border-b text-sm"><td class="p-4">${o.time}</td><td class="p-4 font-bold">${o.product}</td><td class="p-4 text-green-600">৳${o.amount}</td><td class="p-4">${o.district}</td><td class="p-4 text-xs">${o.address}</td></tr>`).join('');
         }
 
         window.onload = () => {
