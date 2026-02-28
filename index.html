@@ -14,64 +14,58 @@
         body { font-family: 'Hind Siliguri', sans-serif; background-color: #fffef2; margin: 0; overflow-x: hidden; }
 
         /* সেকশন কন্ট্রোল */
-        .page-section { display: none; min-height: 80vh; width: 100%; max-width: 1200px; margin: 0 auto; }
-        .page-section.active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .page-section { display: none; min-height: 80vh; width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .page-section.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* নিকনেম পালস অ্যানিমেশন */
-        .nickname-pulse { display: inline-block; animation: pulse 0.5s ease-in-out infinite alternate; color: #d97706; }
-        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.3); text-shadow: 0 0 10px rgba(217, 119, 6, 0.4); } }
+        /* নিকনেম পালস */
+        .nickname-pulse { display: inline-block; animation: pulse 0.5s ease-in-out infinite alternate; color: #d97706; font-weight: 900; }
+        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.25); } }
 
         /* ন্যাভিগেশন */
         .nav-link { cursor: pointer; padding: 8px 20px; font-weight: 600; color: #92400e; transition: 0.3s; border-radius: 50px; }
-        .nav-link.active { background: #f59e0b; color: white; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); }
+        .nav-link.active { background: #f59e0b; color: white; }
 
-        /* কার্ট ও পপআপ */
-        #cart-modal, #checkout-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .honey-popup { 
-            background: white; padding: 2rem; border-radius: 30px; border: 4px solid #f59e0b; 
-            clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
-            width: 300px; height: 300px; display: flex; flex-direction: column; items-center justify-center; text-align: center;
-        }
-
-        /* মৌমাছি ও অন্যান্য */
-        #magic-bee-actor { position: fixed; width: 70px; height: 70px; z-index: 2000; pointer-events: none; transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); }
-        #wand-icon { position: absolute; right: 8px; top: 8px; font-size: 20px; }
+        /* এলিমেন্টস */
+        #magic-bee-actor { position: fixed; width: 75px; height: 75px; z-index: 2000; pointer-events: none; transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .bee-hover { animation: wiggle 2s ease-in-out infinite; }
-        @keyframes wiggle { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(5px, -10px) rotate(5deg); } }
+        @keyframes wiggle { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(8px, -12px) rotate(5deg); } }
 
-        .price-hex { width: 115px; height: 125px; background: #f59e0b; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; }
+        .price-hex { width: 110px; height: 120px; background: #f59e0b; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; }
         #honey-stream { position: absolute; width: 140px; height: 140px; top: 75px; left: 50%; transform: translateX(-50%); z-index: 40; pointer-events: none; opacity: 0; filter: brightness(0.9) sepia(1) saturate(10) hue-rotate(-20deg); transition: 0.3s; }
-        .hex-bg-tile { width: 100%; aspect-ratio: 1/1.15; background: #f59e0b; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); transform: scale(0); transition: 0.4s ease; margin: -1px; }
-        .show-grid .hex-bg-tile { transform: scale(1); opacity: 0.85; }
         
-        /* ড্যাশবোর্ড টেবিল */
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #f59e0b; color: white; }
+        .hex-bg-tile { width: 100%; aspect-ratio: 1/1.15; background: #f59e0b; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); transform: scale(0); transition: 0.4s ease; }
+        .show-grid .hex-bg-tile { transform: scale(1); opacity: 0.85; }
+
+        /* Success Honeycomb Popup */
+        #success-popup { display:none; position:fixed; inset:0; z-index:11000; align-items:center; justify-content:center; background: rgba(255, 254, 242, 0.8); backdrop-filter: blur(4px); }
+        .honey-popup-box { 
+            background: #f59e0b; color: white; padding: 40px; 
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            width: 280px; height: 310px; text-align: center; display: flex; flex-direction: column; justify-content: center;
+        }
     </style>
 </head>
 <body class="flex flex-col items-center">
 
-    <div id="screen-dimmer" style="position:fixed; inset:0; background:black; opacity:0; z-index:9999; pointer-events:none; transition:0.2s;"></div>
-
     <nav class="w-full max-w-6xl p-6 flex flex-col md:flex-row justify-between items-center gap-6 sticky top-0 bg-[#fffef2]/90 backdrop-blur-md z-[5000]">
-        <div class="text-2xl font-black text-amber-900">TAMJID HONEY <span class="text-amber-500">LAB</span></div>
+        <div class="text-2xl font-black text-amber-900 tracking-tighter">TAMJID HONEY <span class="text-amber-500">LAB</span></div>
+        
         <div class="flex gap-2 bg-amber-100/50 p-1.5 rounded-full border border-amber-200">
             <div id="nav-product" class="nav-link active" onclick="switchSection('product')">পণ্য</div>
             <div id="nav-about" class="nav-link" onclick="switchSection('about')">পরিচয়</div>
-            <div id="nav-dash" class="nav-link" onclick="switchSection('dashboard')">ড্যাশবোর্ড</div>
         </div>
+
         <div class="relative flex items-center">
             <div id="magic-bee-actor" class="bee-hover">
                 <dotlottie-player src="https://lottie.host/f3154270-0566-4188-9569-481c3d87bed1/oZmOktFfLe.lottie" background="transparent" speed="1" loop autoplay></dotlottie-player>
-                <div id="wand-icon">🪄</div>
+                <div style="position:absolute; right:8px; top:8px; font-size:20px;">🪄</div>
             </div>
             <div id="price-honeycomb" class="price-hex">
                 <div class="text-[9px] uppercase font-bold opacity-70">Total Bill</div>
                 <div id="bill-display" class="text-lg font-black">৳০</div>
             </div>
-            <div id="cart-basket" onclick="openCart()" class="ml-4 bg-white p-4 rounded-2xl shadow-xl relative cursor-pointer z-50">
+            <div id="cart-btn" onclick="switchSection('cart')" class="ml-4 bg-white p-4 rounded-2xl shadow-xl relative cursor-pointer z-50 transition-transform active:scale-90">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-amber-800" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                 <span id="qty-badge" class="absolute -top-1 -right-1 bg-amber-600 text-white text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center">0</span>
             </div>
@@ -85,8 +79,8 @@
                     <div id="honey-pot" class="text-8xl transition-all duration-700 origin-bottom">🍯</div>
                     <div id="honey-stream"><dotlottie-player id="pour-lottie" src="https://lottie.host/2d6f0c66-420b-437b-8680-f77e782caac3/wlI5cSMy8l.lottie" background="transparent" speed="1.2"></dotlottie-player></div>
                 </div>
-                <h2 class="text-2xl font-bold text-gray-800">খাঁটি মধু</h2>
-                <div class="text-amber-600 font-bold text-xl my-2">৳৭৫০</div>
+                <h2 class="text-2xl font-bold text-gray-800 font-sans">খাঁটি মধু</h2>
+                <div class="text-amber-600 font-bold text-2xl my-2">৳৭৫০</div>
                 <button id="add-to-cart-btn" class="relative w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-5 rounded-2xl transition-all active:scale-95 overflow-hidden">
                     <span class="relative z-10">কার্টে যুক্ত করুন</span>
                     <div id="hex-grid-container" class="absolute inset-0 flex flex-wrap opacity-0 pointer-events-none"></div>
@@ -95,239 +89,281 @@
         </div>
     </section>
 
-    <section id="section-about" class="page-section mt-10 px-6">
+    <section id="section-about" class="page-section mt-10">
         <div class="max-w-4xl mx-auto bg-white rounded-[50px] shadow-2xl overflow-hidden border border-amber-100 flex flex-col md:flex-row">
             <div class="md:w-1/3 bg-amber-500 p-10 flex flex-col items-center justify-center text-white text-center">
                 <div class="w-32 h-32 bg-white/20 rounded-full mb-4 flex items-center justify-center text-5xl">👨‍💻</div>
-                <h2 class="text-2xl font-black">তামজিদুল ইসলাম <span id="nickname-ovi">অভি</span></h2>
-                <p class="mt-4 text-xs">tamjidulislamovi@gmail.com</p>
+                <h2 class="text-2xl font-black">তামজিদুল ইসলাম <span id="nickname">অভি</span></h2>
+                <p class="mt-4 text-xs font-mono opacity-80">tamjidulislamovi@gmail.com</p>
             </div>
-            <div class="md:w-2/3 p-10">
+            <div class="md:w-2/3 p-10 md:p-16">
                 <h1 class="text-3xl font-black text-gray-800 mb-6">ওয়েব ডেভেলপমেন্ট এক্সপার্ট ও ডিজিটাল ক্রিয়েটর</h1>
-                <p class="text-gray-600 text-lg leading-relaxed">আমি কোডিং এবং ডিজাইনের মাধ্যমে চমৎকার ডিজিটাল অভিজ্ঞতা তৈরিতে বিশ্বাসী। আপনার স্বপ্নকে বাস্তবে রূপ দিতে আমি সদা প্রস্তুত।</p>
+                <p class="text-gray-600 text-lg leading-relaxed">আসসালামু আলাইকুম! আমি তামজিদুল ইসলাম অভি। আমি কোডিং এবং সৃজনশীলতার মাধ্যমে চমৎকার ডিজিটাল এক্সপেরিয়েন্স তৈরি করি। আমার লক্ষ্য হলো প্রযুক্তির মাধ্যমে সাধারণ মানুষের সমস্যার সহজ সমাধান করা।</p>
             </div>
         </div>
     </section>
 
-    <section id="section-dashboard" class="page-section mt-10 px-6">
-        <div class="bg-white p-8 rounded-3xl shadow-xl">
-            <h2 class="text-2xl font-bold text-amber-900 mb-4">অর্ডার ড্যাশবোর্ড (Personal)</h2>
-            <div class="overflow-x-auto">
-                <table id="order-table">
-                    <thead><tr><th>ID</th><th>পণ্য</th><th>পরিমাণ</th><th>মোট</th><th>জেলা</th><th>উপজেলা</th><th>ঠিকানা</th></tr></thead>
-                    <tbody id="order-body"></tbody>
-                </table>
+    <section id="section-cart" class="page-section mt-10">
+        <div class="max-w-2xl mx-auto bg-white p-8 md:p-12 rounded-[40px] shadow-xl border border-amber-100">
+            <h2 class="text-3xl font-black text-amber-900 mb-8 border-b pb-4">আপনার কার্ট 🛒</h2>
+            <div id="cart-content-area" class="space-y-6">
+                </div>
+            <div id="cart-footer" class="mt-10 pt-6 border-t hidden">
+                <div class="flex justify-between text-2xl font-black text-gray-800 mb-8">
+                    <span>সর্বমোট:</span>
+                    <span id="cart-total-bill">৳০</span>
+                </div>
+                <button onclick="switchSection('checkout')" class="w-full bg-amber-600 text-white py-5 rounded-2xl font-black text-xl hover:bg-amber-700 transition-all shadow-lg shadow-amber-200">অর্ডার সম্পন্ন করুন</button>
             </div>
         </div>
     </section>
 
-    <div id="cart-modal">
-        <div class="bg-white p-8 rounded-3xl w-80 text-center relative">
-            <h3 class="text-xl font-bold mb-4">আপনার কার্ট</h3>
-            <div id="cart-items-list" class="mb-4 text-gray-600"></div>
-            <button onclick="openCheckout()" class="w-full bg-amber-600 text-white py-3 rounded-xl font-bold">অর্ডার করুন</button>
-            <button onclick="closeModal('cart-modal')" class="mt-3 text-sm text-gray-400">বন্ধ করুন</button>
-        </div>
-    </div>
-
-    <div id="checkout-modal">
-        <div class="bg-white p-8 rounded-3xl w-full max-w-md shadow-2xl">
-            <h3 class="text-2xl font-bold mb-6 text-amber-900 text-center">চেকআউট (ক্যাশ অন ডেলিভারি)</h3>
-            <div class="space-y-4">
-                <select id="district-select" class="w-full p-3 border rounded-xl bg-gray-50"></select>
-                <input type="text" id="upazila-input" placeholder="আপনার উপজেলা টাইপ করুন" class="w-full p-3 border rounded-xl">
-                <textarea id="address-input" placeholder="বিস্তারিত ঠিকানা (গ্রাম/পাড়া/বাসা নং)" class="w-full p-3 border rounded-xl"></textarea>
-                <button onclick="confirmOrder()" class="w-full bg-green-600 text-white py-4 rounded-xl font-bold text-lg">অর্ডার নিশ্চিত করুন</button>
-                <button onclick="closeModal('checkout-modal')" class="w-full text-gray-400 mt-2">বাতিল করুন</button>
+    <section id="section-checkout" class="page-section mt-10">
+        <div class="max-w-xl mx-auto bg-white p-10 rounded-[40px] shadow-2xl border-2 border-amber-100">
+            <h2 class="text-2xl font-black text-amber-900 mb-8 text-center">ডেলিভারি ঠিকানা (COD)</h2>
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-sm font-bold text-gray-500 mb-2">জেলা নির্বাচন করুন</label>
+                    <select id="districts-list" class="w-full p-4 border-2 border-amber-50 rounded-2xl bg-amber-50/30 focus:border-amber-400 outline-none"></select>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-500 mb-2">উপজেলা</label>
+                    <input type="text" id="upazila-name" placeholder="আপনার উপজেলা লিখুন" class="w-full p-4 border-2 border-amber-50 rounded-2xl bg-amber-50/30 outline-none focus:border-amber-400">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-500 mb-2">বিস্তারিত ঠিকানা</label>
+                    <textarea id="full-address" placeholder="গ্রাম, পাড়া, বাসা নং..." class="w-full p-4 border-2 border-amber-50 rounded-2xl bg-amber-50/30 outline-none focus:border-amber-400 h-24"></textarea>
+                </div>
+                <button onclick="placeFinalOrder()" class="w-full bg-green-600 text-white py-5 rounded-2xl font-black text-xl hover:bg-green-700 transition-all shadow-xl">অর্ডার কনফার্ম করুন</button>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div id="success-popup" style="display:none; position:fixed; inset:0; z-index:11000; align-items:center; justify-content:center;">
-        <div class="honey-popup">
-            <div class="text-5xl mb-2">🍯</div>
-            <h2 class="text-2xl font-black text-amber-900">ধন্যবাদ!</h2>
-            <p class="text-sm font-bold text-amber-700">অর্ডার সফল হয়েছে</p>
+    <section id="section-dashboard" class="page-section mt-10">
+        <div class="bg-white p-8 rounded-3xl shadow-xl overflow-x-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-black text-amber-900">অর্ডার ড্যাশবোর্ড (Personal)</h2>
+                <button onclick="clearOrders()" class="text-xs text-red-500 underline">সব মুছুন</button>
+            </div>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-amber-100 text-amber-900"><th class="p-4">সময়</th><th class="p-4">পণ্য</th><th class="p-4">মোট টাকা</th><th class="p-4">জেলা</th><th class="p-4">ঠিকানা</th></tr>
+                </thead>
+                <tbody id="dashboard-table-body"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <div id="success-popup">
+        <div class="honey-popup-box">
+            <div class="text-6xl mb-4">🍯</div>
+            <h3 class="text-2xl font-black">ধন্যবাদ!</h3>
+            <p class="font-bold opacity-90 mt-2 text-sm">আপনার অর্ডারটি সফলভাবে গ্রহণ করা হয়েছে।</p>
         </div>
     </div>
+
+    <footer class="mt-20 p-10 text-center text-gray-300 text-xs">
+        <span onclick="accessDashboard()" class="cursor-pointer">© 2024 Tamjidul Islam Ovi</span>
+    </footer>
 
     <script>
-        const districts = ["বাগেরহাট", "বান্দরবান", "বরগুনা", "বরিশাল", "ভোলা", "বগুড়া", "ব্রাহ্মণবাড়িয়া", "চাঁদপুর", "চাঁপাইনবাবগঞ্জ", "চট্টগ্রাম", "চুয়াডাঙ্গা", "কুমিল্লা", "কক্সবাজার", "ঢাকা", "দিনাজপুর", "ফরিদপুর", "ফেনী", "গাইবান্ধা", "গাজীপুর", "গোপালগঞ্জ", "হবিগঞ্জ", "জামালপুর", "যশোর", "ঝালকাঠি", "ঝিনাইদহ", "জয়পুরহাট", "খাগড়াছড়ি", "খুলনা", "কিশোরগঞ্জ", "কুড়িগ্রাম", "কুষ্টিয়া", "লক্ষ্মীপুর", "লালমনিরহাট", "মাদারীপুর", "মাগুরা", "মানিকগঞ্জ", "মেহেরপুর", "মৌলভীবাজার", "মুন্সীগঞ্জ", "ময়মনসিংহ", "নওগাঁ", "নড়াইল", "নারায়ণগঞ্জ", "নরসিংদী", "নাটোর", "নেত্রকোণা", "নীলফামারী", "নোয়াখালী", "পাবনা", "পঞ্চগড়", "পটুয়াখালী", "রাজবাড়ী", "রাজশাহী", "রাঙ্গামাটি", "রংপুর", "সাতক্ষীরা", "শরীয়তপুর", "শেরপুর", "সিরাজগঞ্জ", "সুনামগঞ্জ", "সিলেট", "টাঙ্গাইল", "ঠাকুরগাঁও"];
+        const districtArray = ["বাগেরহাট", "বান্দরবান", "বরগুনা", "বরিশাল", "ভোলা", "বগুড়া", "ব্রাহ্মণবাড়িয়া", "চাঁদপুর", "চাঁপাইনবাবগঞ্জ", "চট্টগ্রাম", "চুয়াডাঙ্গা", "কুমিল্লা", "কক্সবাজার", "ঢাকা", "দিনাজপুর", "ফরিদপুর", "ফেনী", "গাইবান্ধা", "গাজীপুর", "গোপালগঞ্জ", "হবিগঞ্জ", "জামালপুর", "যশোর", "ঝালকাঠি", "ঝিনাইদহ", "জয়পুরহাট", "খাগড়াছড়ি", "খুলনা", "কিশোরগঞ্জ", "কুড়িগ্রাম", "কুষ্টিয়া", "লক্ষ্মীপুর", "লালমনিরহাট", "মাদারীপুর", "মাগুরা", "মানিকগঞ্জ", "মেহেরপুর", "মৌলভীবাজার", "মুন্সীগঞ্জ", "ময়মনসিংহ", "নওগাঁ", "নড়াইল", "নারায়ণগঞ্জ", "নরসিংদী", "নাটোর", "নেত্রকোণা", "নীলফামারী", "নোয়াখালী", "পাবনা", "পঞ্চগড়", "পটুয়াখালী", "রাজবাড়ী", "রাজশাহী", "রাঙ্গামাটি", "রংপুর", "সাতক্ষীরা", "শরীয়তপুর", "শেরপুর", "সিরাজগঞ্জ", "সুনামগঞ্জ", "সিলেট", "টাঙ্গাইল", "ঠাকুরগাঁও"];
         
-        let itemsCount = 0, billSum = 0, currentSection = 'product', idleTimer;
-        const UNIT_PRICE = 750;
+        let cartQty = 0, totalPrice = 0, currentView = 'product', idleBeeTimer;
+        const PRICE_PER_UNIT = 750;
 
-        // মৌমাছি কন্ট্রোল
-        const bee = document.getElementById('magic-bee-actor');
-        const priceTag = document.getElementById('price-honeycomb');
+        const beeActor = document.getElementById('magic-bee-actor');
+        const billBox = document.getElementById('price-honeycomb');
         const buyBtn = document.getElementById('add-to-cart-btn');
 
+        // মৌমাছি পার্কিং
         function parkBee() {
-            if(currentSection !== 'product') {
-                bee.style.left = '20px'; bee.style.top = '20px';
+            if(currentView !== 'product') {
+                beeActor.style.left = '20px'; beeActor.style.top = '20px';
                 return;
             }
-            const rect = priceTag.getBoundingClientRect();
-            bee.style.left = (rect.left - 55) + 'px';
-            bee.style.top = (rect.top - 15) + 'px';
+            const rect = billBox.getBoundingClientRect();
+            beeActor.style.left = (rect.left - 60) + 'px';
+            beeActor.style.top = (rect.top - 15) + 'px';
+            beeActor.classList.add('bee-hover');
         }
 
-        function resetIdleTimer() {
-            clearTimeout(idleTimer);
-            if(currentSection === 'product') {
-                idleTimer = setTimeout(() => {
+        // আইডল মৌমাছি (১০ সেকেন্ড লজিক)
+        function startIdleBee() {
+            clearTimeout(idleBeeTimer);
+            if(currentView === 'product') {
+                idleBeeTimer = setTimeout(() => {
                     const btnRect = buyBtn.getBoundingClientRect();
-                    bee.style.left = (btnRect.left + btnRect.width/2 - 35) + 'px';
-                    bee.style.top = (btnRect.top - 80) + 'px';
+                    beeActor.style.left = (btnRect.left + btnRect.width/2 - 35) + 'px';
+                    beeActor.style.top = (btnRect.top - 90) + 'px';
                 }, 10000);
             }
         }
 
-        // সেকশন সুইচ
-        function switchSection(name) {
-            currentSection = name;
+        // সেকশন সুইচিং
+        function switchSection(id) {
+            currentView = id;
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            document.getElementById('section-' + name).classList.add('active');
-            document.getElementById('nav-' + (name === 'dashboard' ? 'dash' : name)).classList.add('active');
             
-            const nickname = document.getElementById('nickname-ovi');
-            name === 'about' ? nickname.classList.add('nickname-pulse') : nickname.classList.remove('nickname-pulse');
-            
+            document.getElementById('section-' + id).classList.add('active');
+            if(id === 'product' || id === 'about') {
+                document.getElementById('nav-' + id).classList.add('active');
+            }
+
+            // নিকনেম অ্যানিমেশন
+            const nick = document.getElementById('nickname');
+            id === 'about' ? nick.classList.add('nickname-pulse') : nick.classList.remove('nickname-pulse');
+
+            if(id === 'cart') renderCart();
+            if(id === 'dashboard') loadDashboard();
+
             parkBee();
-            resetIdleTimer();
-            if(name === 'dashboard') updateDashboard();
+            startIdleBee();
+            window.scrollTo(0,0);
+        }
+
+        // ড্যাশবোর্ড এক্সেস
+        function accessDashboard() {
+            const pw = prompt("সিক্রেট পাসওয়ার্ড দিন:");
+            if(pw === "ovi123") {
+                switchSection('dashboard');
+            } else {
+                alert("ভুল পাসওয়ার্ড!");
+            }
         }
 
         // কার্ট লজিক
         buyBtn.onclick = () => {
-            resetIdleTimer();
             const jar = document.getElementById('honey-pot'), stream = document.getElementById('honey-stream');
             const lottie = document.getElementById('pour-lottie'), grid = document.getElementById('hex-grid-container');
             
-            jar.style.transform = 'translateX(54px) rotate(-55deg)';
-            setTimeout(() => { stream.style.opacity = '1'; lottie.seek(0); lottie.play(); grid.style.opacity = '1'; grid.classList.add('show-grid'); }, 350);
+            jar.style.transform = 'translateX(55px) rotate(-55deg)';
+            setTimeout(() => { stream.style.opacity = '1'; lottie.seek(0); lottie.play(); grid.style.opacity = '1'; grid.classList.add('show-grid'); }, 300);
             
             setTimeout(() => {
-                const btnPos = buyBtn.getBoundingClientRect();
-                createFlyingBee(btnPos.left + btnPos.width/2, btnPos.top + btnPos.height/2);
-                setTimeout(() => { jar.style.transform = 'rotate(0)'; stream.style.opacity = '0'; grid.classList.remove('show-grid'); }, 1600);
+                const bPos = buyBtn.getBoundingClientRect();
+                createFlyingBee(bPos.left + bPos.width/2, bPos.top + bPos.height/2);
+                setTimeout(() => { jar.style.transform = 'rotate(0)'; stream.style.opacity = '0'; grid.classList.remove('show-grid'); }, 1500);
             }, 800);
         };
 
         function createFlyingBee(x1, y1) {
             const fb = document.createElement('div');
-            fb.style.cssText = `position:fixed; width:80px; height:80px; z-index:10000; cursor:pointer; pointer-events:auto;`;
+            fb.style.cssText = `position:fixed; width:80px; height:80px; z-index:10000; cursor:pointer;`;
             fb.innerHTML = `<dotlottie-player src="https://lottie.host/f3154270-0566-4188-9569-481c3d87bed1/oZmOktFfLe.lottie" background="transparent" speed="1.5" loop autoplay style="width:100%; height:100%"></dotlottie-player>`;
             document.body.appendChild(fb);
             
-            const cart = document.getElementById('cart-basket').getBoundingClientRect();
-            let start = null, isDead = false;
+            const cartIcon = document.getElementById('cart-btn').getBoundingClientRect();
+            let start = null, isKilled = false;
             
             fb.onmousedown = () => {
-                isDead = true;
-                document.getElementById('screen-dimmer').style.opacity = "1";
-                setTimeout(() => document.getElementById('screen-dimmer').style.opacity = "0", 500);
-                fb.style.transition = "all 0.5s ease-in"; fb.style.transform = "translateY(100vh) rotate(180deg)";
-                setTimeout(() => fb.remove(), 500);
+                isKilled = true;
+                fb.style.transition = "all 0.6s ease-in"; fb.style.transform = "translateY(100vh) rotate(180deg)";
+                setTimeout(() => fb.remove(), 600);
             };
 
-            function anim(t) {
+            function step(t) {
                 if(!start) start = t;
-                const p = (t-start)/2000;
-                if(p < 1 && !isDead) {
-                    fb.style.left = (x1 + (cart.left - x1)*p) + 'px';
-                    fb.style.top = (y1 + (cart.top - y1)*p + Math.sin(p*Math.PI)*-150) + 'px';
-                    requestAnimationFrame(anim);
-                } else if(!isDead) { fb.remove(); updateUI(); }
+                const p = (t-start)/1800;
+                if(p < 1 && !isKilled) {
+                    fb.style.left = (x1 + (cartIcon.left - x1)*p) + 'px';
+                    fb.style.top = (y1 + (cartIcon.top - y1)*p + Math.sin(p*Math.PI)*-160) + 'px';
+                    requestAnimationFrame(step);
+                } else if(!isKilled) { fb.remove(); updateCartCounter(); }
             }
-            requestAnimationFrame(anim);
+            requestAnimationFrame(step);
         }
 
-        function updateUI() {
-            itemsCount++; billSum += UNIT_PRICE;
-            document.getElementById('qty-badge').innerText = itemsCount;
-            const bd = document.getElementById('bill-display');
-            bd.innerText = `৳${billSum}`;
-            bd.classList.add('price-update-pop');
-            setTimeout(() => bd.classList.remove('price-update-pop'), 600);
+        function updateCartCounter() {
+            cartQty++; totalPrice += PRICE_PER_UNIT;
+            document.getElementById('qty-badge').innerText = cartQty;
+            const bDisp = document.getElementById('bill-display');
+            bDisp.innerText = `৳${totalPrice}`;
+            bDisp.style.transform = "scale(1.4)";
+            setTimeout(() => bDisp.style.transform = "scale(1)", 400);
         }
 
-        // মোডাল ও ডিস্ট্রিক্ট সেটআপ
-        function openCart() {
-            if(itemsCount === 0) return alert("কার্ট খালি!");
-            document.getElementById('cart-items-list').innerText = `খাঁটি মধু - ${itemsCount} টি`;
-            document.getElementById('cart-modal').style.display = 'flex';
+        function renderCart() {
+            const area = document.getElementById('cart-content-area');
+            const footer = document.getElementById('cart-footer');
+            if(cartQty === 0) {
+                area.innerHTML = `<div class="text-center py-20 text-gray-400">আপনার কার্ট খালি। পণ্য সেকশন থেকে মধু যুক্ত করুন।</div>`;
+                footer.classList.add('hidden');
+            } else {
+                area.innerHTML = `
+                    <div class="flex items-center gap-6 p-6 bg-amber-50 rounded-3xl border border-amber-100">
+                        <div class="text-4xl">🍯</div>
+                        <div class="flex-1">
+                            <h4 class="font-black text-gray-800 text-xl">খাঁটি মধু (৫০০ গ্রাম)</h4>
+                            <p class="text-amber-600 font-bold">৳৭৫০ x ${cartQty}</p>
+                        </div>
+                        <div class="text-xl font-black text-gray-800">৳${totalPrice}</div>
+                    </div>
+                `;
+                document.getElementById('cart-total-bill').innerText = `৳${totalPrice}`;
+                footer.classList.remove('hidden');
+            }
         }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        function openCheckout() { closeModal('cart-modal'); document.getElementById('checkout-modal').style.display = 'flex'; }
 
-        // জেলা তালিকা লোড
-        const distSelect = document.getElementById('district-select');
-        distSelect.innerHTML = `<option value="">জেলা নির্বাচন করুন</option>` + districts.map(d => `<option value="${d}">${d}</option>`).join('');
+        // চেকআউট ও ডিস্ট্রিক্ট সেটআপ
+        const dSelect = document.getElementById('districts-list');
+        dSelect.innerHTML = `<option value="">জেলা নির্বাচন করুন</option>` + districtArray.map(d => `<option value="${d}">${d}</option>`).join('');
 
-        // অর্ডার কনফার্ম
-        function confirmOrder() {
-            const dist = distSelect.value;
-            const upa = document.getElementById('upazila-input').value;
-            const addr = document.getElementById('address-input').value;
-
-            if(!dist || !upa || !addr) return alert("সব তথ্য পূরণ করুন!");
+        function placeFinalOrder() {
+            const dist = dSelect.value, upa = document.getElementById('upazila-name').value, addr = document.getElementById('full-address').value;
+            if(!dist || !upa || !addr) return alert("দয়া করে সব তথ্য পূরণ করুন!");
 
             const order = {
-                id: Date.now(),
-                product: "খাঁটি মধু",
-                qty: itemsCount,
-                total: billSum,
+                time: new Date().toLocaleString('bn-BD'),
+                product: `মধু (${cartQty} টি)`,
+                amount: totalPrice,
                 district: dist,
-                upazila: upa,
-                address: addr
+                address: `${upa}, ${addr}`
             };
 
-            let orders = JSON.parse(localStorage.getItem('orders') || "[]");
-            orders.push(order);
-            localStorage.setItem('orders', JSON.stringify(orders));
+            let allOrders = JSON.parse(localStorage.getItem('ovi_orders') || "[]");
+            allOrders.push(order);
+            localStorage.setItem('ovi_orders', JSON.stringify(allOrders));
 
-            closeModal('checkout-modal');
             const pop = document.getElementById('success-popup');
             pop.style.display = 'flex';
-            setTimeout(() => { 
+            setTimeout(() => {
                 pop.style.display = 'none';
-                itemsCount = 0; billSum = 0; updateUI(); 
+                cartQty = 0; totalPrice = 0;
                 document.getElementById('qty-badge').innerText = "0";
                 document.getElementById('bill-display').innerText = "৳০";
+                switchSection('product');
             }, 1000);
         }
 
-        function updateDashboard() {
-            const orders = JSON.parse(localStorage.getItem('orders') || "[]");
-            const body = document.getElementById('order-body');
-            body.innerHTML = orders.reverse().map(o => `
-                <tr>
-                    <td>#${o.id.toString().slice(-4)}</td>
-                    <td>${o.product}</td>
-                    <td>${o.qty}</td>
-                    <td>৳${o.total}</td>
-                    <td>${o.district}</td>
-                    <td>${o.upazila}</td>
-                    <td>${o.address}</td>
+        function loadDashboard() {
+            const orders = JSON.parse(localStorage.getItem('ovi_orders') || "[]");
+            const tbody = document.getElementById('dashboard-table-body');
+            tbody.innerHTML = orders.reverse().map(o => `
+                <tr class="border-b">
+                    <td class="p-4 text-xs text-gray-400">${o.time}</td>
+                    <td class="p-4 font-bold text-gray-700">${o.product}</td>
+                    <td class="p-4 text-green-600 font-black">৳${o.amount}</td>
+                    <td class="p-4">${o.district}</td>
+                    <td class="p-4 text-xs text-gray-500">${o.address}</td>
                 </tr>
             `).join('');
         }
 
-        // ইনিশিয়ালাইজেশন
+        function clearOrders() { if(confirm("সব ডাটা মুছে ফেলবেন?")) { localStorage.removeItem('ovi_orders'); loadDashboard(); } }
+
         window.onload = () => {
-            parkBee();
-            resetIdleTimer();
+            parkBee(); startIdleBee();
             const grid = document.getElementById('hex-grid-container');
             for(let i=0; i<40; i++) {
                 const h = document.createElement('div'); h.className = 'hex-bg-tile';
-                h.style.transitionDelay = (Math.random() * 0.3) + 's';
+                h.style.transitionDelay = (Math.random() * 0.4) + 's';
                 grid.appendChild(h);
             }
         };
         window.onresize = parkBee;
-        window.onclick = resetIdleTimer;
+        window.onmousemove = startIdleBee;
     </script>
 </body>
 </html>
