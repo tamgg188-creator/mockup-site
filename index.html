@@ -349,7 +349,27 @@
         const billBox = document.getElementById('price-honeycomb');
 
         // Initialize Products
+        function initProducts() {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = products.map(p => {
+        // ফুল হলে ঘুরবে, মধু হলে লাফ দিবে - এটা ঠিক করা হচ্ছে এখানে
+        const animClass = (p.emoji === "🌸" || p.emoji === "🌼") ? "spin-now" : "bounce-now";
         
+        return `
+            <div class="product-card bg-white p-8 rounded-[40px] shadow-xl text-center relative overflow-hidden" 
+                 onclick="runEmojiAnim(this, '${animClass}')">
+                <div class="emoji-icon text-7xl mb-6 transform transition-transform duration-500 inline-block">${p.emoji}</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">${p.name}</h3>
+                <p class="text-gray-500 text-sm mb-4">${p.desc}</p>
+                <div class="text-amber-600 font-black text-2xl mb-6">৳${p.price}</div>
+                <button onclick="event.stopPropagation(); addToCart(${p.id}, this)" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 rounded-2xl transition-all active:scale-95">
+                    কার্টে যুক্ত করুন
+                </button>
+            </div>
+        `;
+    }).join('');
+  
+        }
 
         // মৌমাছি পার্কিং ও এনিমেশন রিসেট
         function parkBee() {
@@ -370,27 +390,7 @@
                 idleBeeTimer = setTimeout(() => {
                     const nav = document.querySelector('nav').getBoundingClientRect();
                     beeActor.style.left = (nav.left + nav.width/2 - 37) + 'px';
-   function initProducts() {
-    const grid = document.getElementById('product-grid');
-    grid.innerHTML = products.map(p => {
-        // ফুল হলে ঘুরবে, মধু হলে লাফ দিবে
-        const animClass = (p.emoji === "🌸" || p.emoji === "🌼") ? "spin-now" : "bounce-now";
-        
-        return `
-            <div class="product-card bg-white p-8 rounded-[40px] shadow-xl text-center relative overflow-hidden">
-                <div class="emoji-icon text-7xl mb-6 transform transition-transform duration-500 inline-block">${p.emoji}</div>
-                <h3 class="text-xl font-bold text-gray-800 mb-2">${p.name}</h3>
-                <p class="text-gray-500 text-sm mb-4">${p.desc}</p>
-                <div class="text-amber-600 font-black text-2xl mb-6">৳${p.price}</div>
-                
-                <button onclick="addToCart(${p.id}, this); runEmojiAnim(this.closest('.product-card'), '${animClass}')" 
-                        class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 rounded-2xl transition-all active:scale-95">
-                    কার্টে যুক্ত করুন
-                </button>
-            </div>
-        `;
-    }).join('');
-   }                 beeActor.style.top = (nav.top + 100) + 'px';
+                    beeActor.style.top = (nav.top + 100) + 'px';
                     setTimeout(() => {
                         if(currentView === 'product') beeActor.classList.add('bee-orbit');
                     }, 800);
