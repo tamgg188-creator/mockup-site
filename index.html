@@ -74,23 +74,57 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #fffef2; }
         ::-webkit-scrollbar-thumb { background: #f59e0b; border-radius: 10px; }
-        /* এটি ইমোজিগুলোকে লাফাতে বা ঘুরতে সাহায্য করবে */
-@keyframes bounceEmoji {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-30px) scale(1.2); }
-}
-.bounce-now { animation: bounceEmoji 0.6s ease; }
 
-@keyframes spinEmoji {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-.spin-now { animation: spinEmoji 0.7s linear; }
+        /* এটি ইমোজিগুলোকে লাফাতে বা ঘুরতে সাহায্য করবে */
+        @keyframes bounceEmoji {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px) scale(1.2); }
+        }
+        .bounce-now { animation: bounceEmoji 0.6s ease; }
+
+        @keyframes spinEmoji {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spin-now { animation: spinEmoji 0.7s linear; }
+
+        /* --- Converter Styles --- */
+        :root {
+            --primary-red: #d32f2f;
+            --bd-green: #006a4e;
+        }
+        .converter-card {
+            background: #ffffff;
+            padding: 2.5rem;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+            border: 1px solid #eee;
+        }
+        .input-group { margin-bottom: 1.5rem; text-align: left; }
+        .input-group label { display: block; font-size: 0.9rem; color: #666; margin-bottom: 0.5rem; font-weight: bold; }
+        .converter-input {
+            width: 100%; padding: 15px; border: 2px solid #f1f1f1; border-radius: 15px;
+            font-size: 1.2rem; outline: none; transition: 0.3s; font-weight: bold;
+        }
+        .converter-input:focus { border-color: var(--primary-red); background: #fff8f8; }
+        .result-area {
+            background: #f0fdf4; padding: 1.5rem; border-radius: 20px;
+            margin-top: 1.5rem; border-left: 8px solid var(--bd-green); text-align: center;
+        }
+        #result-text { font-size: 1.8rem; font-weight: 900; color: var(--bd-green); }
+        .conv-btn {
+            width: 100%; padding: 15px; background: var(--primary-red); color: white;
+            border: none; border-radius: 15px; font-size: 1.1rem; font-weight: bold;
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+        .conv-btn:hover { background: #b71c1c; transform: translateY(-2px); }
     </style>
 </head>
 <body class="flex flex-col items-center">
 
-    <!-- Navigation -->
     <nav class="w-full max-w-6xl p-4 md:p-6 flex flex-col md:flex-row justify-between items-center gap-6 sticky top-0 bg-[#fffef2]/90 backdrop-blur-md z-[5000] border-b border-amber-100">
         <div class="text-2xl font-black text-amber-900 tracking-tighter cursor-pointer" onclick="switchSection('product')">
             TAMJID HONEY <span class="text-amber-500">LAB</span>
@@ -99,6 +133,7 @@
         <div class="flex gap-1 md:gap-2 bg-amber-100/50 p-1.5 rounded-full border border-amber-200 overflow-x-auto max-w-full">
             <div id="nav-product" class="nav-link active" onclick="switchSection('product')">পণ্য</div>
             <div id="nav-reviews" class="nav-link" onclick="switchSection('reviews')">রিভিউ</div>
+            <div id="nav-converter" class="nav-link" onclick="switchSection('converter')">কনভার্টার</div>
             <div id="nav-about" class="nav-link" onclick="switchSection('about')">পরিচয়</div>
             <div id="nav-contact" class="nav-link" onclick="switchSection('contact')">যোগাযোগ</div>
         </div>
@@ -119,7 +154,6 @@
         </div>
     </nav>
 
-    <!-- Product Section -->
     <section id="section-product" class="page-section active mt-10">
         <div class="text-center mb-12">
             <h2 class="text-4xl font-black text-amber-900 mb-4">আমাদের প্রিমিয়াম মধু সংগ্রহ</h2>
@@ -127,11 +161,9 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4" id="product-grid">
-            <!-- Products will be injected by JS -->
-        </div>
+            </div>
     </section>
 
-    <!-- Reviews Section -->
     <section id="section-reviews" class="page-section mt-10">
         <div class="text-center mb-12">
             <h2 class="text-4xl font-black text-amber-900 mb-4">গ্রাহকদের মতামত</h2>
@@ -174,7 +206,33 @@
         </div>
     </section>
 
-    <!-- About Section -->
+    <section id="section-converter" class="page-section mt-10">
+        <div class="text-center mb-10">
+            <h2 class="text-4xl font-black text-amber-900 mb-4">Currency Converter</h2>
+            <p class="text-amber-700 font-medium">CNY (Chinese Yuan) থেকে BDT (Bangladeshi Taka) কনভার্ট করুন</p>
+        </div>
+        
+        <div class="converter-card">
+            <div class="input-group">
+                <label>Amount in CNY (Yuan)</label>
+                <input type="number" id="cny-amount" class="converter-input" placeholder="0.00" oninput="convertCurrency()">
+            </div>
+            
+            <div class="input-group">
+                <label>Current Rate (1 CNY to BDT)</label>
+                <input type="number" id="exchange-rate" class="converter-input" value="17.50" oninput="convertCurrency()">
+            </div>
+
+            <div class="result-area">
+                <div class="text-sm text-gray-500 mb-1">Total in BDT</div>
+                <div id="result-text">৳ 0.00</div>
+            </div>
+            
+            <button class="conv-btn" onclick="convertCurrency()">Calculate Now</button>
+            <p class="text-[10px] text-gray-400 mt-4 text-center">*রেট পরিবর্তনশীল, আপনার বর্তমান লেনদেনের রেটটি বসান।</p>
+        </div>
+    </section>
+
     <section id="section-about" class="page-section mt-10">
         <div class="max-w-4xl mx-auto bg-white rounded-[50px] shadow-2xl overflow-hidden border border-amber-100 flex flex-col md:flex-row">
             <div class="md:w-1/3 bg-amber-500 p-10 flex flex-col items-center justify-center text-white text-center">
@@ -190,7 +248,6 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
     <section id="section-contact" class="page-section mt-10">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 bg-white p-10 rounded-[50px] shadow-2xl border border-amber-100">
             <div>
@@ -228,15 +285,13 @@
         </div>
     </section>
 
-    <!-- Cart Section -->
     <section id="section-cart" class="page-section mt-10">
         <div class="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-[40px] shadow-xl border border-amber-100">
             <h2 class="text-3xl font-black text-amber-900 mb-8 border-b pb-4 flex items-center gap-4">
                 আপনার কার্ট <span class="text-sm font-normal bg-amber-100 px-3 py-1 rounded-full" id="cart-count-text">০টি পণ্য</span>
             </h2>
             <div id="cart-content-area" class="space-y-6">
-                <!-- Cart items injected by JS -->
-            </div>
+                </div>
             <div id="cart-footer" class="mt-10 pt-6 border-t hidden">
                 <div class="flex justify-between text-2xl font-black text-gray-800 mb-8">
                     <span>সর্বমোট:</span>
@@ -247,7 +302,6 @@
         </div>
     </section>
 
-    <!-- Checkout Section -->
     <section id="section-checkout" class="page-section mt-10">
         <div class="max-w-xl mx-auto bg-white p-10 rounded-[40px] shadow-2xl border-2 border-amber-100">
             <h2 class="text-2xl font-black text-amber-900 mb-8 text-center">ডেলিভারি ঠিকানা (Cash on Delivery)</h2>
@@ -268,7 +322,6 @@
         </div>
     </section>
 
-    <!-- Dashboard Section -->
     <section id="section-dashboard" class="page-section mt-10">
         <div class="bg-white p-8 rounded-3xl shadow-xl overflow-x-auto">
             <div class="flex justify-between items-center mb-6">
@@ -291,7 +344,6 @@
         </div>
     </section>
 
-    <!-- Modals & Popups -->
     <div id="pin-modal">
         <div class="atm-box">
             <div class="pin-display" id="pin-dots"></div>
@@ -321,7 +373,6 @@
         </div>
     </div>
 
-    <!-- Animation Helpers -->
     <div id="honey-stream-container" class="fixed inset-0 pointer-events-none z-[6000]">
         <div id="honey-stream" class="hidden">
             <dotlottie-player id="pour-lottie" src="https://lottie.host/2d6f0c66-420b-437b-8680-f77e782caac3/wlI5cSMy8l.lottie" background="transparent" speed="1.2"></dotlottie-player>
@@ -350,25 +401,23 @@
 
         // Initialize Products
         function initProducts() {
-    const grid = document.getElementById('product-grid');
-    grid.innerHTML = products.map(p => {
-        // ফুল হলে ঘুরবে, মধু হলে লাফ দিবে - এটা ঠিক করা হচ্ছে এখানে
-        const animClass = (p.emoji === "🌸" || p.emoji === "🌼") ? "spin-now" : "bounce-now";
-        
-        return `
-            <div class="product-card bg-white p-8 rounded-[40px] shadow-xl text-center relative overflow-hidden" 
-                 onclick="runEmojiAnim(this, '${animClass}')">
-                <div class="emoji-icon text-7xl mb-6 transform transition-transform duration-500 inline-block">${p.emoji}</div>
-                <h3 class="text-xl font-bold text-gray-800 mb-2">${p.name}</h3>
-                <p class="text-gray-500 text-sm mb-4">${p.desc}</p>
-                <div class="text-amber-600 font-black text-2xl mb-6">৳${p.price}</div>
-                <button onclick="event.stopPropagation(); addToCart(${p.id}, this)" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 rounded-2xl transition-all active:scale-95">
-                    কার্টে যুক্ত করুন
-                </button>
-            </div>
-        `;
-    }).join('');
-  
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = products.map(p => {
+                const animClass = (p.emoji === "🌸" || p.emoji === "🌼") ? "spin-now" : "bounce-now";
+                
+                return `
+                    <div class="product-card bg-white p-8 rounded-[40px] shadow-xl text-center relative overflow-hidden" 
+                         onclick="runEmojiAnim(this, '${animClass}')">
+                        <div class="emoji-icon text-7xl mb-6 transform transition-transform duration-500 inline-block">${p.emoji}</div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">${p.name}</h3>
+                        <p class="text-gray-500 text-sm mb-4">${p.desc}</p>
+                        <div class="text-amber-600 font-black text-2xl mb-6">৳${p.price}</div>
+                        <button onclick="event.stopPropagation(); addToCart(${p.id}, this)" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 rounded-2xl transition-all active:scale-95">
+                            কার্টে যুক্ত করুন
+                        </button>
+                    </div>
+                `;
+            }).join('');
         }
 
         // মৌমাছি পার্কিং ও এনিমেশন রিসেট
@@ -420,6 +469,20 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // --- Converter Logic ---
+        function convertCurrency() {
+            const amount = document.getElementById('cny-amount').value;
+            const rate = document.getElementById('exchange-rate').value;
+            const resultDisplay = document.getElementById('result-text');
+            
+            if(amount && rate) {
+                const total = (amount * rate).toFixed(2);
+                resultDisplay.innerText = `৳ ${total}`;
+            } else {
+                resultDisplay.innerText = `৳ 0.00`;
+            }
+        }
+
         // ATM PIN লজিক
         function openPinModal() { document.getElementById('pin-modal').style.display = 'flex'; currentPin = ""; updatePinDisplay(); }
         function closePinModal() { document.getElementById('pin-modal').style.display = 'none'; }
@@ -453,10 +516,8 @@
                 cart.push({ ...product, qty: 1 });
             }
 
-            // Animation
             const rect = btn.getBoundingClientRect();
             createFlyingBee(rect.left + rect.width/2, rect.top + rect.height/2);
-            
             updateCartUI();
         }
 
@@ -621,28 +682,15 @@
             initProducts();
             parkBee(); 
             startIdleBee();
-            
-            // Background Hex Grid
-            const grid = document.getElementById('hex-grid-container');
-            if(grid) {
-                for(let i=0; i<40; i++) {
-                    const h = document.createElement('div'); h.className = 'hex-bg-tile';
-                    h.style.transitionDelay = (Math.random() * 0.4) + 's';
-                    grid.appendChild(h);
-                }
-            }
         };
 
         window.onmousemove = startIdleBee;
         window.onscroll = startIdleBee;
+
         function runEmojiAnim(card, className) {
-    const emoji = card.querySelector('.emoji-icon');
-    emoji.classList.add(className);
-    
-    // এনিমেশন শেষ হলে ক্লাসটি সরিয়ে ফেলা যাতে পরে আবার ক্লিক করা যায়
-    setTimeout(() => {
-        emoji.classList.remove(className);
-    }, 700);
+            const emoji = card.querySelector('.emoji-icon');
+            emoji.classList.add(className);
+            setTimeout(() => { emoji.classList.remove(className); }, 700);
         }
     </script>
 </body>
