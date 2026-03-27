@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tamjid Honey Lab - Premium Organic Honey</title>
+    <title>Tamjid Honey Lab - Pro Mockup</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600&display=swap');
         
-        body { font-family: 'Hind Siliguri', sans-serif; background-color: #fffef2; margin: 0; overflow-x: hidden; scroll-behavior: smooth; }
+        body { font-family: 'Hind Siliguri', sans-serif; background-color: #fffef2; margin: 0; overflow-x: hidden; }
 
         /* সেকশন কন্ট্রোল */
         .page-section { display: none; min-height: 80vh; width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px; }
         .page-section.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* নিকনেম ও এনিমেশন */
         #nickname { color: black; cursor: pointer; display: inline-block; font-weight: 900; }
         .nickname-pulse { animation: pulse 0.5s ease-in-out infinite alternate; }
-        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.1); } }
+        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.2); } }
 
         /* ন্যাভিগেশন */
-        .nav-link { cursor: pointer; padding: 8px 20px; font-weight: 600; color: #92400e; transition: 0.3s; border-radius: 50px; white-space: nowrap; }
+        .nav-link { cursor: pointer; padding: 8px 20px; font-weight: 600; color: #92400e; transition: 0.3s; border-radius: 50px; }
         .nav-link.active { background: #f59e0b; color: white; }
 
         /* মৌমাছি Orbit মেকানিজম */
@@ -33,15 +33,14 @@
             transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1), top 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
+        /* বাটনের চারদিকে ঘোরার এনিমেশন */
         .bee-orbit { animation: orbit 4s linear infinite; }
         @keyframes orbit {
             from { transform: rotate(0deg) translateX(90px) rotate(0deg); }
             to { transform: rotate(360deg) translateX(90px) rotate(-360deg); }
         }
 
-        .price-hex { width: 110px; height: 120px; background: #f59e0b; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; transition: 0.3s; }
-        .price-hex:hover { transform: scale(1.05); }
-        
+        .price-hex { width: 110px; height: 120px; background: #f59e0b; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; }
         #honey-stream { position: absolute; width: 140px; height: 140px; top: 75px; left: 50%; transform: translateX(-50%); z-index: 40; pointer-events: none; opacity: 0; filter: brightness(0.9) sepia(1) saturate(10) hue-rotate(-20deg); transition: 0.3s; }
         
         .hex-bg-tile { width: 100%; aspect-ratio: 1/1.15; background: #f59e0b; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); transform: scale(0); transition: 0.4s ease; }
@@ -49,7 +48,8 @@
 
         /* ATM PIN Modal */
         #pin-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 12000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .atm-box { background: #1a1a1a; padding: 30px; border-radius: 30px; width: 320px; border: 4px solid #333; }
+        .atm-box { background: #1a1a1a; padding: 30px; border-radius: 30px; width: 320px; border: 4px solid #333; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         
         .pin-display { background: #000; color: #0f0; font-family: monospace; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2rem; border-radius: 10px; margin-bottom: 20px; letter-spacing: 8px; border: 2px solid #333; }
         .pin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
@@ -65,30 +65,16 @@
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             width: 280px; height: 310px; text-align: center; display: flex; flex-direction: column; justify-content: center;
         }
-
-        /* Product Card Hover */
-        .product-card { transition: all 0.3s ease; border: 2px solid transparent; }
-        .product-card:hover { transform: translateY(-10px); border-color: #f59e0b; box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.1); }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #fffef2; }
-        ::-webkit-scrollbar-thumb { background: #f59e0b; border-radius: 10px; }
     </style>
 </head>
 <body class="flex flex-col items-center">
 
-    <!-- Navigation -->
-    <nav class="w-full max-w-6xl p-4 md:p-6 flex flex-col md:flex-row justify-between items-center gap-6 sticky top-0 bg-[#fffef2]/90 backdrop-blur-md z-[5000] border-b border-amber-100">
-        <div class="text-2xl font-black text-amber-900 tracking-tighter cursor-pointer" onclick="switchSection('product')">
-            TAMJID HONEY <span class="text-amber-500">LAB</span>
-        </div>
+    <nav class="w-full max-w-6xl p-6 flex flex-col md:flex-row justify-between items-center gap-6 sticky top-0 bg-[#fffef2]/90 backdrop-blur-md z-[5000]">
+        <div class="text-2xl font-black text-amber-900 tracking-tighter">TAMJID HONEY <span class="text-amber-500">LAB</span></div>
         
-        <div class="flex gap-1 md:gap-2 bg-amber-100/50 p-1.5 rounded-full border border-amber-200 overflow-x-auto max-w-full">
+        <div class="flex gap-2 bg-amber-100/50 p-1.5 rounded-full border border-amber-200">
             <div id="nav-product" class="nav-link active" onclick="switchSection('product')">পণ্য</div>
-            <div id="nav-reviews" class="nav-link" onclick="switchSection('reviews')">রিভিউ</div>
             <div id="nav-about" class="nav-link" onclick="switchSection('about')">পরিচয়</div>
-            <div id="nav-contact" class="nav-link" onclick="switchSection('contact')">যোগাযোগ</div>
         </div>
 
         <div class="relative flex items-center">
@@ -100,69 +86,30 @@
                 <div class="text-[9px] uppercase font-bold opacity-70">Total Bill</div>
                 <div id="bill-display" class="text-lg font-black">৳০</div>
             </div>
-            <div id="cart-btn" onclick="switchSection('cart')" class="ml-4 bg-white p-4 rounded-2xl shadow-xl relative cursor-pointer z-50 hover:bg-amber-50 transition-colors">
+            <div id="cart-btn" onclick="switchSection('cart')" class="ml-4 bg-white p-4 rounded-2xl shadow-xl relative cursor-pointer z-50">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-amber-800" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                 <span id="qty-badge" class="absolute -top-1 -right-1 bg-amber-600 text-white text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center">0</span>
             </div>
         </div>
     </nav>
 
-    <!-- Product Section -->
     <section id="section-product" class="page-section active mt-10">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-black text-amber-900 mb-4">আমাদের প্রিমিয়াম মধু সংগ্রহ</h2>
-            <p class="text-amber-700 font-medium">প্রকৃতির সেরা উৎস থেকে সংগৃহীত ১০০% খাঁটি ও প্রাকৃতিক মধু</p>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4" id="product-grid">
-            <!-- Products will be injected by JS -->
-        </div>
-    </section>
-
-    <!-- Reviews Section -->
-    <section id="section-reviews" class="page-section mt-10">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-black text-amber-900 mb-4">গ্রাহকদের মতামত</h2>
-            <p class="text-amber-700 font-medium">আমাদের মধুর গুণগত মান সম্পর্কে তারা যা বলছেন</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white p-8 rounded-3xl shadow-lg border border-amber-50">
-                <div class="flex text-amber-400 mb-4">★★★★★</div>
-                <p class="text-gray-600 italic mb-6">"অসাধারণ স্বাদ! আমি এর আগে অনেক জায়গা থেকে মধু কিনেছি কিন্তু তামজিদ হানি ল্যাবের মধুর মতো খাঁটি স্বাদ কোথাও পাইনি।"</p>
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-amber-200 rounded-full flex items-center justify-center font-bold text-amber-800">রা</div>
-                    <div>
-                        <h4 class="font-bold text-gray-800">রাশেদ আহমেদ</h4>
-                        <p class="text-xs text-gray-400">ঢাকা</p>
-                    </div>
+        <div class="flex flex-col items-center">
+            <div class="relative bg-white p-12 rounded-[50px] shadow-2xl text-center max-w-sm w-full border border-amber-50">
+                <div class="relative inline-block mb-10">
+                    <div id="honey-pot" class="text-8xl transition-all duration-700 origin-bottom">🍯</div>
+                    <div id="honey-stream"><dotlottie-player id="pour-lottie" src="https://lottie.host/2d6f0c66-420b-437b-8680-f77e782caac3/wlI5cSMy8l.lottie" background="transparent" speed="1.2"></dotlottie-player></div>
                 </div>
-            </div>
-            <div class="bg-white p-8 rounded-3xl shadow-lg border border-amber-50">
-                <div class="flex text-amber-400 mb-4">★★★★★</div>
-                <p class="text-gray-600 italic mb-6">"কালোজিরা ফুলের মধুটা জাস্ট অসাম! ডেলিভারিও খুব দ্রুত পেয়েছি। ধন্যবাদ অভি ভাই।"</p>
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-amber-200 rounded-full flex items-center justify-center font-bold text-amber-800">সা</div>
-                    <div>
-                        <h4 class="font-bold text-gray-800">সাদিয়া ইসলাম</h4>
-                        <p class="text-xs text-gray-400">চট্টগ্রাম</p>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white p-8 rounded-3xl shadow-lg border border-amber-50">
-                <div class="flex text-amber-400 mb-4">★★★★★</div>
-                <p class="text-gray-600 italic mb-6">"প্যাকেজিং খুব সুন্দর ছিল। মধুর ঘনত্ব এবং ঘ্রাণই বলে দেয় এটা কতটা খাঁটি। হাইলি রিকমেন্ডেড!"</p>
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-amber-200 rounded-full flex items-center justify-center font-bold text-amber-800">মি</div>
-                    <div>
-                        <h4 class="font-bold text-gray-800">মিজানুর রহমান</h4>
-                        <p class="text-xs text-gray-400">খুলনা</p>
-                    </div>
-                </div>
+                <h2 class="text-2xl font-bold text-gray-800">খাঁটি মধু</h2>
+                <div class="text-amber-600 font-bold text-2xl my-2">৳৭৫০</div>
+                <button id="add-to-cart-btn" class="relative w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-5 rounded-2xl transition-all active:scale-95 overflow-hidden">
+                    <span class="relative z-10">কার্টে যুক্ত করুন</span>
+                    <div id="hex-grid-container" class="absolute inset-0 flex flex-wrap opacity-0 pointer-events-none"></div>
+                </button>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
     <section id="section-about" class="page-section mt-10">
         <div class="max-w-4xl mx-auto bg-white rounded-[50px] shadow-2xl overflow-hidden border border-amber-100 flex flex-col md:flex-row">
             <div class="md:w-1/3 bg-amber-500 p-10 flex flex-col items-center justify-center text-white text-center">
@@ -172,59 +119,15 @@
             </div>
             <div class="md:w-2/3 p-10 md:p-16">
                 <h1 class="text-3xl font-black text-gray-800 mb-6 uppercase tracking-tighter">ওয়েব ডেভেলপমেন্ট এক্সপার্ট ও ডিজিটাল ক্রিয়েটর</h1>
-                <p class="text-gray-600 text-lg leading-relaxed mb-6">আসসালামু আলাইকুম! আমি তামজিদুল ইসলাম অভি। আমি কোডিং এবং সৃজনশীলতার মাধ্যমে চমৎকার ডিজিটাল এক্সপেরিয়েন্স তৈরি করি।</p>
-                <p class="text-gray-600 text-lg leading-relaxed">"তামজিদ হানি ল্যাব" আমার একটি স্বপ্ন যেখানে আমি প্রযুক্তির সাথে প্রকৃতির শুদ্ধতাকে এক সুতোয় গাঁথতে চেয়েছি। আমাদের প্রতিটি ফোঁটা মধু সরাসরি খামার থেকে আপনার টেবিলে পৌঁছে দেওয়া হয়।</p>
+                <p class="text-gray-600 text-lg leading-relaxed">আসসালামু আলাইকুম! আমি তামজিদুল ইসলাম অভি। আমি কোডিং এবং সৃজনশীলতার মাধ্যমে চমৎকার ডিজিটাল এক্সপেরিয়েন্স তৈরি করি।</p>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="section-contact" class="page-section mt-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 bg-white p-10 rounded-[50px] shadow-2xl border border-amber-100">
-            <div>
-                <h2 class="text-3xl font-black text-amber-900 mb-6">আমাদের সাথে যোগাযোগ করুন</h2>
-                <div class="space-y-6">
-                    <div class="flex items-start gap-4">
-                        <div class="bg-amber-100 p-3 rounded-xl text-amber-600">📍</div>
-                        <div>
-                            <h4 class="font-bold">ঠিকানা</h4>
-                            <p class="text-gray-500">মিরপুর-১০, ঢাকা, বাংলাদেশ</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-4">
-                        <div class="bg-amber-100 p-3 rounded-xl text-amber-600">📞</div>
-                        <div>
-                            <h4 class="font-bold">ফোন</h4>
-                            <p class="text-gray-500">+৮৮০ ১৭১২-৩৪৫৬৭৮</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-4">
-                        <div class="bg-amber-100 p-3 rounded-xl text-amber-600">✉️</div>
-                        <div>
-                            <h4 class="font-bold">ইমেইল</h4>
-                            <p class="text-gray-500">info@honeylab.com</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="space-y-4">
-                <input type="text" placeholder="আপনার নাম" class="w-full p-4 border-2 border-amber-50 rounded-2xl bg-amber-50/30 outline-none focus:border-amber-400">
-                <input type="email" placeholder="আপনার ইমেইল" class="w-full p-4 border-2 border-amber-50 rounded-2xl bg-amber-50/30 outline-none focus:border-amber-400">
-                <textarea placeholder="আপনার বার্তা..." class="w-full p-4 border-2 border-amber-50 rounded-2xl bg-amber-50/30 outline-none focus:border-amber-400 h-32"></textarea>
-                <button class="w-full bg-amber-600 text-white py-4 rounded-2xl font-bold hover:bg-amber-700 transition-all">বার্তা পাঠান</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Cart Section -->
     <section id="section-cart" class="page-section mt-10">
-        <div class="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-[40px] shadow-xl border border-amber-100">
-            <h2 class="text-3xl font-black text-amber-900 mb-8 border-b pb-4 flex items-center gap-4">
-                আপনার কার্ট <span class="text-sm font-normal bg-amber-100 px-3 py-1 rounded-full" id="cart-count-text">০টি পণ্য</span>
-            </h2>
-            <div id="cart-content-area" class="space-y-6">
-                <!-- Cart items injected by JS -->
-            </div>
+        <div class="max-w-2xl mx-auto bg-white p-8 md:p-12 rounded-[40px] shadow-xl border border-amber-100">
+            <h2 class="text-3xl font-black text-amber-900 mb-8 border-b pb-4">আপনার কার্ট 🛒</h2>
+            <div id="cart-content-area" class="space-y-6"></div>
             <div id="cart-footer" class="mt-10 pt-6 border-t hidden">
                 <div class="flex justify-between text-2xl font-black text-gray-800 mb-8">
                     <span>সর্বমোট:</span>
@@ -235,43 +138,27 @@
         </div>
     </section>
 
-    <!-- Checkout Section -->
     <section id="section-checkout" class="page-section mt-10">
         <div class="max-w-xl mx-auto bg-white p-10 rounded-[40px] shadow-2xl border-2 border-amber-100">
-            <h2 class="text-2xl font-black text-amber-900 mb-8 text-center">ডেলিভারি ঠিকানা (Cash on Delivery)</h2>
+            <h2 class="text-2xl font-black text-amber-900 mb-8 text-center">ডেলিভারি ঠিকানা (COD)</h2>
             <div class="space-y-5">
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="text" id="cust-name" placeholder="আপনার নাম" class="w-full p-4 border-2 border-amber-50 rounded-2xl bg-amber-50/30 outline-none focus:border-amber-400">
-                    <input type="text" id="cust-phone" placeholder="ফোন নম্বর" class="w-full p-4 border-2 border-amber-50 rounded-2xl bg-amber-50/30 outline-none focus:border-amber-400">
-                </div>
                 <select id="districts-list" class="w-full p-4 border-2 border-amber-50 rounded-2xl bg-amber-50/30 outline-none focus:border-amber-400"></select>
                 <input type="text" id="upazila-name" placeholder="আপনার উপজেলা" class="w-full p-4 border-2 border-amber-50 rounded-2xl bg-amber-50/30 outline-none focus:border-amber-400">
-                <textarea id="full-address" placeholder="বিস্তারিত ঠিকানা (বাসা নম্বর, রোড ইত্যাদি)..." class="w-full p-4 border-2 border-amber-50 rounded-2xl bg-amber-50/30 outline-none focus:border-amber-400 h-24"></textarea>
-                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100">
-                    <p class="text-sm text-amber-800 font-bold mb-2">অর্ডার সামারি:</p>
-                    <div id="checkout-summary" class="text-xs space-y-1 text-gray-600"></div>
-                </div>
+                <textarea id="full-address" placeholder="বিস্তারিত ঠিকানা..." class="w-full p-4 border-2 border-amber-50 rounded-2xl bg-amber-50/30 outline-none focus:border-amber-400 h-24"></textarea>
                 <button onclick="placeFinalOrder()" class="w-full bg-green-600 text-white py-5 rounded-2xl font-black text-xl hover:bg-green-700 transition-all shadow-xl">অর্ডার কনফার্ম করুন</button>
             </div>
         </div>
     </section>
 
-    <!-- Dashboard Section -->
     <section id="section-dashboard" class="page-section mt-10">
         <div class="bg-white p-8 rounded-3xl shadow-xl overflow-x-auto">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-black text-amber-900">অর্ডার ড্যাশবোর্ড (Private)</h2>
-                <button onclick="if(confirm('সব অর্ডার ডিলিট করবেন?')) { localStorage.removeItem('ovi_orders'); loadDashboard(); }" class="text-xs text-red-500">Reset All</button>
+                <button onclick="localStorage.removeItem('ovi_orders'); loadDashboard();" class="text-xs text-red-500">Reset</button>
             </div>
-            <table class="w-full text-left min-w-[800px]">
+            <table class="w-full text-left">
                 <thead>
-                    <tr class="bg-amber-100 text-amber-900">
-                        <th class="p-4">সময়</th>
-                        <th class="p-4">গ্রাহক</th>
-                        <th class="p-4">পণ্য</th>
-                        <th class="p-4">টাকা</th>
-                        <th class="p-4">ঠিকানা</th>
-                    </tr>
+                    <tr class="bg-amber-100 text-amber-900"><th class="p-4">সময়</th><th class="p-4">পণ্য</th><th class="p-4">টাকা</th><th class="p-4">জেলা</th><th class="p-4">ঠিকানা</th></tr>
                 </thead>
                 <tbody id="dashboard-table-body"></tbody>
             </table>
@@ -279,7 +166,6 @@
         </div>
     </section>
 
-    <!-- Modals & Popups -->
     <div id="pin-modal">
         <div class="atm-box">
             <div class="pin-display" id="pin-dots"></div>
@@ -309,52 +195,19 @@
         </div>
     </div>
 
-    <!-- Animation Helpers -->
-    <div id="honey-stream-container" class="fixed inset-0 pointer-events-none z-[6000]">
-        <div id="honey-stream" class="hidden">
-            <dotlottie-player id="pour-lottie" src="https://lottie.host/2d6f0c66-420b-437b-8680-f77e782caac3/wlI5cSMy8l.lottie" background="transparent" speed="1.2"></dotlottie-player>
-        </div>
-    </div>
-
     <script>
-        const products = [
-            { id: 1, name: "খাঁটি সুন্দরবন মধু", price: 850, emoji: "🍯", desc: "সুন্দরবনের প্রাকৃতিক চাক থেকে সংগৃহীত।" },
-            { id: 2, name: "কালোজিরা ফুলের মধু", price: 950, emoji: "🐝", desc: "কালোজিরা ফুলের নির্যাস সমৃদ্ধ ঔষধি মধু।" },
-            { id: 3, name: "লিচু ফুলের মধু", price: 650, emoji: "🌸", desc: "হালকা মিষ্টি ও সুগন্ধি লিচু ফুলের মধু।" },
-            { id: 4, name: "সরিষা ফুলের মধু", price: 550, emoji: "🌼", desc: "ক্রিমি টেক্সচারের প্রাকৃতিক সরিষা মধু।" },
-            { id: 5, name: "খলিশা ফুলের মধু", price: 1100, emoji: "🍯", desc: "সুন্দরবনের বিরল খলিশা ফুলের মধু।" },
-            { id: 6, name: "বড়ই ফুলের মধু", price: 700, emoji: "🍂", desc: "হালকা টক-মিষ্টি স্বাদের প্রাকৃতিক মধু।" }
-        ];
-
         const districtArray = ["বাগেরহাট", "বান্দরবান", "বরগুনা", "বরিশাল", "ভোলা", "বগুড়া", "ব্রাহ্মণবাড়িয়া", "চাঁদপুর", "চাঁপাইনবাবগঞ্জ", "চট্টগ্রাম", "চুয়াডাঙ্গা", "কুমিল্লা", "কক্সবাজার", "ঢাকা", "দিনাজপুর", "ফরিদপুর", "ফেনী", "গাইবান্ধা", "গাজীপুর", "গোপালগঞ্জ", "হবিগঞ্জ", "জামালপুর", "যশোর", "ঝালকাঠি", "ঝিনাইদহ", "জয়পুরহাট", "খাগড়াছড়ি", "খুলনা", "কিশোরগঞ্জ", "কুড়িগ্রাম", "কুষ্টিয়া", "লক্ষ্মীপুর", "লালমনিরহাট", "মাদারীপুর", "মাগুরা", "মানিকগঞ্জ", "মেহেরপুর", "মৌলভীবাজার", "মুন্সীগঞ্জ", "ময়মনসিংহ", "নওগাঁ", "নড়াইল", "নারায়ণগঞ্জ", "নরসিংদী", "নাটোর", "নেত্রকোণা", "নীলফামারী", "নোয়াখালী", "পাবনা", "পঞ্চগড়", "পটুয়াখালী", "রাজবাড়ী", "রাজশাহী", "রাঙ্গামাটি", "রংপুর", "সাতক্ষীরা", "শরীয়তপুর", "শেরপুর", "সিরাজগঞ্জ", "সুনামগঞ্জ", "সিলেট", "টাঙ্গাইল", "ঠাকুরগাঁও"];
         
-        let cart = [];
-        let currentView = 'product';
-        let idleBeeTimer;
-        let currentPin = "";
+        let cartQty = 0, totalPrice = 0, currentView = 'product', idleBeeTimer, currentPin = "";
+        const PRICE_PER_UNIT = 750;
 
         const beeActor = document.getElementById('magic-bee-actor');
         const billBox = document.getElementById('price-honeycomb');
-
-        // Initialize Products
-        function initProducts() {
-            const grid = document.getElementById('product-grid');
-            grid.innerHTML = products.map(p => `
-                <div class="product-card bg-white p-8 rounded-[40px] shadow-xl text-center relative overflow-hidden">
-                    <div class="text-7xl mb-6 transform transition-transform hover:scale-110 duration-500">${p.emoji}</div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">${p.name}</h3>
-                    <p class="text-gray-500 text-sm mb-4">${p.desc}</p>
-                    <div class="text-amber-600 font-black text-2xl mb-6">৳${p.price}</div>
-                    <button onclick="addToCart(${p.id}, this)" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 rounded-2xl transition-all active:scale-95">
-                        কার্টে যুক্ত করুন
-                    </button>
-                </div>
-            `).join('');
-        }
+        const buyBtn = document.getElementById('add-to-cart-btn');
 
         // মৌমাছি পার্কিং ও এনিমেশন রিসেট
         function parkBee() {
-            beeActor.classList.remove('bee-orbit');
+            beeActor.classList.remove('bee-orbit'); // Orbit বন্ধ
             if(currentView !== 'product') {
                 beeActor.style.left = '20px'; beeActor.style.top = '20px';
                 return;
@@ -364,14 +217,16 @@
             beeActor.style.top = (rect.top - 15) + 'px';
         }
 
+        // ৫ সেকেন্ড অলস থাকলে মৌমাছি ঘুরঘুর করবে
         function startIdleBee() {
             clearTimeout(idleBeeTimer);
-            parkBee();
+            parkBee(); // শুরুতে পার্কে যাবে
             if(currentView === 'product') {
                 idleBeeTimer = setTimeout(() => {
-                    const nav = document.querySelector('nav').getBoundingClientRect();
-                    beeActor.style.left = (nav.left + nav.width/2 - 37) + 'px';
-                    beeActor.style.top = (nav.top + 100) + 'px';
+                    const btnRect = buyBtn.getBoundingClientRect();
+                    // বাটনের ঠিক মাঝখানে যাবে এবং Orbit শুরু করবে
+                    beeActor.style.left = (btnRect.left + btnRect.width/2 - 37) + 'px';
+                    beeActor.style.top = (btnRect.top + btnRect.height/2 - 37) + 'px';
                     setTimeout(() => {
                         if(currentView === 'product') beeActor.classList.add('bee-orbit');
                     }, 800);
@@ -383,22 +238,17 @@
             currentView = id;
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            
-            const target = document.getElementById('section-' + id);
-            if(target) target.classList.add('active');
-            
-            const navLink = document.getElementById('nav-' + id);
-            if(navLink) navLink.classList.add('active');
+            document.getElementById('section-' + id).classList.add('active');
+            if(id === 'product' || id === 'about') document.getElementById('nav-' + id).classList.add('active');
 
             const nick = document.getElementById('nickname');
             id === 'about' ? nick.classList.add('nickname-pulse') : nick.classList.remove('nickname-pulse');
 
             if(id === 'cart') renderCart();
-            if(id === 'checkout') renderCheckoutSummary();
             if(id === 'dashboard') loadDashboard();
             
             startIdleBee();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo(0,0);
         }
 
         // ATM PIN লজিক
@@ -414,7 +264,7 @@
                     closePinModal();
                     switchSection('dashboard');
                 } else {
-                    alert("ভুল পাসওয়ার্ড!");
+                    alert("Wrong password!");
                     currentPin = "";
                 }
             } else {
@@ -423,32 +273,24 @@
             updatePinDisplay();
         }
 
-        // কার্ট লজিক
-        function addToCart(prodId, btn) {
-            const product = products.find(p => p.id === prodId);
-            const existing = cart.find(item => item.id === prodId);
+        // কার্টে যোগ করার লজিক
+        buyBtn.onclick = () => {
+            const jar = document.getElementById('honey-pot'), stream = document.getElementById('honey-stream');
+            const lottie = document.getElementById('pour-lottie'), grid = document.getElementById('hex-grid-container');
             
-            if(existing) {
-                existing.qty++;
-            } else {
-                cart.push({ ...product, qty: 1 });
-            }
+            // মৌমাছিকে সাথে সাথে পার্কে ফিরিয়ে আনা
+            parkBee(); 
+            clearTimeout(idleBeeTimer);
 
-            // Animation
-            const rect = btn.getBoundingClientRect();
-            createFlyingBee(rect.left + rect.width/2, rect.top + rect.height/2);
+            jar.style.transform = 'translateX(55px) rotate(-55deg)';
+            setTimeout(() => { stream.style.opacity = '1'; lottie.seek(0); lottie.play(); grid.style.opacity = '1'; grid.classList.add('show-grid'); }, 300);
             
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            
-            document.getElementById('qty-badge').innerText = totalQty;
-            document.getElementById('bill-display').innerText = `৳${totalPrice}`;
-            document.getElementById('cart-count-text').innerText = `${totalQty}টি পণ্য`;
-        }
+            setTimeout(() => {
+                const bPos = buyBtn.getBoundingClientRect();
+                createFlyingBee(bPos.left + bPos.width/2, bPos.top + bPos.height/2);
+                setTimeout(() => { jar.style.transform = 'rotate(0)'; stream.style.opacity = '0'; grid.classList.remove('show-grid'); }, 1500);
+            }, 800);
+        };
 
         function createFlyingBee(x1, y1) {
             const fb = document.createElement('div');
@@ -457,77 +299,46 @@
             document.body.appendChild(fb);
             
             const cartIcon = document.getElementById('cart-btn').getBoundingClientRect();
-            let start = null;
+            let start = null, isKilled = false;
             
+            fb.onmousedown = () => {
+                isKilled = true;
+                fb.style.transition = "all 0.6s ease-in"; fb.style.transform = "translateY(100vh) rotate(180deg)";
+                setTimeout(() => fb.remove(), 600);
+            };
+
             function step(t) {
                 if(!start) start = t;
-                const p = (t-start)/1200;
-                if(p < 1) {
+                const p = (t-start)/1800;
+                if(p < 1 && !isKilled) {
                     fb.style.left = (x1 + (cartIcon.left - x1)*p) + 'px';
-                    fb.style.top = (y1 + (cartIcon.top - y1)*p + Math.sin(p*Math.PI)*-150) + 'px';
+                    fb.style.top = (y1 + (cartIcon.top - y1)*p + Math.sin(p*Math.PI)*-160) + 'px';
                     requestAnimationFrame(step);
-                } else { 
-                    fb.remove(); 
-                    const badge = document.getElementById('qty-badge');
-                    badge.style.transform = 'scale(1.5)';
-                    setTimeout(() => badge.style.transform = 'scale(1)', 200);
-                }
+                } else if(!isKilled) { fb.remove(); updateCartCounter(); startIdleBee(); }
             }
             requestAnimationFrame(step);
+        }
+
+        function updateCartCounter() {
+            cartQty++; totalPrice += PRICE_PER_UNIT;
+            document.getElementById('qty-badge').innerText = cartQty;
+            const bDisp = document.getElementById('bill-display');
+            bDisp.innerText = `৳${totalPrice}`;
+            bDisp.classList.add('price-update-pop');
+            setTimeout(() => bDisp.classList.remove('price-update-pop'), 600);
         }
 
         function renderCart() {
             const area = document.getElementById('cart-content-area');
             const footer = document.getElementById('cart-footer');
-            
-            if(cart.length === 0) {
-                area.innerHTML = `<div class="text-center py-20 text-gray-400">আপনার কার্ট খালি। কিছু মধু কিনুন! 🍯</div>`;
+            if(cartQty === 0) {
+                area.innerHTML = `<div class="text-center py-20 text-gray-400">কার্ট খালি।</div>`;
                 footer.classList.add('hidden');
             } else {
-                area.innerHTML = cart.map(item => `
-                    <div class="flex items-center gap-4 md:gap-6 p-4 md:p-6 bg-amber-50 rounded-3xl border border-amber-100">
-                        <div class="text-4xl">${item.emoji}</div>
-                        <div class="flex-1">
-                            <h4 class="font-black text-gray-800 text-lg">${item.name}</h4>
-                            <p class="text-amber-600 font-bold">৳${item.price}</p>
-                        </div>
-                        <div class="flex items-center gap-3 bg-white px-3 py-1 rounded-full border">
-                            <button onclick="updateQty(${item.id}, -1)" class="text-amber-600 font-bold">-</button>
-                            <span class="font-bold">${item.qty}</span>
-                            <button onclick="updateQty(${item.id}, 1)" class="text-amber-600 font-bold">+</button>
-                        </div>
-                        <div class="text-lg font-black text-gray-800">৳${item.price * item.qty}</div>
-                        <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-600">✕</button>
-                    </div>
-                `).join('');
-                
-                const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                area.innerHTML = `<div class="flex items-center gap-6 p-6 bg-amber-50 rounded-3xl border border-amber-100"><div class="text-4xl">🍯</div><div class="flex-1"><h4 class="font-black text-gray-800 text-xl">খাঁটি মধু</h4><p class="text-amber-600 font-bold">৳৭৫০ x ${cartQty}</p></div><div class="text-xl font-black text-gray-800">৳${totalPrice}</div></div>`;
                 document.getElementById('cart-total-bill').innerText = `৳${totalPrice}`;
                 footer.classList.remove('hidden');
             }
-        }
-
-        function updateQty(id, delta) {
-            const item = cart.find(i => i.id === id);
-            if(item) {
-                item.qty += delta;
-                if(item.qty <= 0) return removeFromCart(id);
-                updateCartUI();
-                renderCart();
-            }
-        }
-
-        function removeFromCart(id) {
-            cart = cart.filter(i => i.id !== id);
-            updateCartUI();
-            renderCart();
-        }
-
-        function renderCheckoutSummary() {
-            const summary = document.getElementById('checkout-summary');
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            summary.innerHTML = cart.map(i => `<div>• ${i.name} (${i.qty}টি) - ৳${i.price * i.qty}</div>`).join('') + 
-                                `<div class="mt-2 pt-2 border-t font-bold text-amber-900">মোট: ৳${totalPrice}</div>`;
         }
 
         // জেলা লিস্ট
@@ -535,87 +346,39 @@
         dSelect.innerHTML = `<option value="">জেলা নির্বাচন করুন</option>` + districtArray.map(d => `<option value="${d}">${d}</option>`).join('');
 
         function placeFinalOrder() {
-            const name = document.getElementById('cust-name').value;
-            const phone = document.getElementById('cust-phone').value;
-            const dist = dSelect.value;
-            const upa = document.getElementById('upazila-name').value;
-            const addr = document.getElementById('full-address').value;
-            
-            if(!name || !phone || !dist || !upa || !addr) return alert("সবগুলো তথ্য সঠিকভাবে পূরণ করুন!");
-            if(cart.length === 0) return alert("কার্ট খালি!");
+            const dist = dSelect.value, upa = document.getElementById('upazila-name').value, addr = document.getElementById('full-address').value;
+            if(!dist || !upa || !addr) return alert("তথ্য পূরণ করুন!");
 
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            const productList = cart.map(i => `${i.name} (${i.qty})`).join(', ');
-
-            const order = { 
-                time: new Date().toLocaleString('bn-BD'), 
-                customer: name,
-                phone: phone,
-                product: productList, 
-                amount: totalPrice, 
-                district: dist, 
-                address: `${upa}, ${addr}` 
-            };
-
+            const order = { time: new Date().toLocaleString('bn-BD'), product: `মধু (${cartQty})`, amount: totalPrice, district: dist, address: `${upa}, ${addr}` };
             let all = JSON.parse(localStorage.getItem('ovi_orders') || "[]");
-            all.push(order); 
-            localStorage.setItem('ovi_orders', JSON.stringify(all));
+            all.push(order); localStorage.setItem('ovi_orders', JSON.stringify(all));
 
             const pop = document.getElementById('success-popup');
             pop.style.display = 'flex';
-            
             setTimeout(() => {
                 pop.style.display = 'none';
-                cart = [];
-                updateCartUI();
+                cartQty = 0; totalPrice = 0;
+                document.getElementById('qty-badge').innerText = "0";
+                document.getElementById('bill-display').innerText = "৳০";
                 switchSection('product');
-            }, 2000);
+            }, 1000);
         }
 
         function loadDashboard() {
             const orders = JSON.parse(localStorage.getItem('ovi_orders') || "[]");
-            const body = document.getElementById('dashboard-table-body');
-            
-            if(orders.length === 0) {
-                body.innerHTML = `<tr><td colspan="5" class="p-10 text-center text-gray-400">কোনো অর্ডার পাওয়া যায়নি।</td></tr>`;
-                return;
-            }
-
-            body.innerHTML = orders.reverse().map(o => `
-                <tr class="border-b hover:bg-amber-50 transition-colors">
-                    <td class="p-4 text-xs text-gray-500">${o.time}</td>
-                    <td class="p-4">
-                        <div class="font-bold text-gray-800">${o.customer}</div>
-                        <div class="text-xs text-amber-600">${o.phone}</div>
-                    </td>
-                    <td class="p-4 font-medium text-gray-700">${o.product}</td>
-                    <td class="p-4 font-black text-green-600">৳${o.amount}</td>
-                    <td class="p-4">
-                        <div class="text-xs font-bold">${o.district}</div>
-                        <div class="text-[10px] text-gray-400">${o.address}</div>
-                    </td>
-                </tr>
-            `).join('');
+            document.getElementById('dashboard-table-body').innerHTML = orders.reverse().map(o => `<tr class="border-b"><td class="p-4 text-xs">${o.time}</td><td class="p-4 font-bold">${o.product}</td><td class="p-4 text-green-600">৳${o.amount}</td><td class="p-4">${o.district}</td><td class="p-4 text-xs">${o.address}</td></tr>`).join('');
         }
 
         window.onload = () => {
-            initProducts();
-            parkBee(); 
-            startIdleBee();
-            
-            // Background Hex Grid
+            parkBee(); startIdleBee();
             const grid = document.getElementById('hex-grid-container');
-            if(grid) {
-                for(let i=0; i<40; i++) {
-                    const h = document.createElement('div'); h.className = 'hex-bg-tile';
-                    h.style.transitionDelay = (Math.random() * 0.4) + 's';
-                    grid.appendChild(h);
-                }
+            for(let i=0; i<40; i++) {
+                const h = document.createElement('div'); h.className = 'hex-bg-tile';
+                h.style.transitionDelay = (Math.random() * 0.4) + 's';
+                grid.appendChild(h);
             }
         };
-
         window.onmousemove = startIdleBee;
-        window.onscroll = startIdleBee;
     </script>
 </body>
 </html>
