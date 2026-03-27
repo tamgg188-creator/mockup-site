@@ -74,18 +74,6 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #fffef2; }
         ::-webkit-scrollbar-thumb { background: #f59e0b; border-radius: 10px; }
-        /* এটি ইমোজিগুলোকে লাফাতে বা ঘুরতে সাহায্য করবে */
-@keyframes bounceEmoji {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-30px) scale(1.2); }
-}
-.bounce-now { animation: bounceEmoji 0.6s ease; }
-
-@keyframes spinEmoji {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-.spin-now { animation: spinEmoji 0.7s linear; }
     </style>
 </head>
 <body class="flex flex-col items-center">
@@ -200,21 +188,21 @@
                         <div class="bg-amber-100 p-3 rounded-xl text-amber-600">📍</div>
                         <div>
                             <h4 class="font-bold">ঠিকানা</h4>
-                            <p class="text-gray-500">সিলেট, বাংলাদেশ</p>
+                            <p class="text-gray-500">মিরপুর-১০, ঢাকা, বাংলাদেশ</p>
                         </div>
                     </div>
                     <div class="flex items-start gap-4">
-                        <div class="bg-amber-100 p-3 rounded-xl text-amber-600">☎️</div>
+                        <div class="bg-amber-100 p-3 rounded-xl text-amber-600">📞</div>
                         <div>
-                            <h4 class="font-bold">হোয়াটসঅ্যাপ</h4>
-                            <p class="text-gray-500">+880 1647029948</p>
+                            <h4 class="font-bold">ফোন</h4>
+                            <p class="text-gray-500">+৮৮০ ১৭১২-৩৪৫৬৭৮</p>
                         </div>
                     </div>
                     <div class="flex items-start gap-4">
                         <div class="bg-amber-100 p-3 rounded-xl text-amber-600">✉️</div>
                         <div>
                             <h4 class="font-bold">ইমেইল</h4>
-                            <p class="text-gray-500">tamjidulislamovi@gmail.com</p>
+                            <p class="text-gray-500">info@honeylab.com</p>
                         </div>
                     </div>
                 </div>
@@ -350,25 +338,18 @@
 
         // Initialize Products
         function initProducts() {
-    const grid = document.getElementById('product-grid');
-    grid.innerHTML = products.map(p => {
-        // ফুল হলে ঘুরবে, মধু হলে লাফ দিবে - এটা ঠিক করা হচ্ছে এখানে
-        const animClass = (p.emoji === "🌸" || p.emoji === "🌼") ? "spin-now" : "bounce-now";
-        
-        return `
-            <div class="product-card bg-white p-8 rounded-[40px] shadow-xl text-center relative overflow-hidden" 
-                 onclick="runEmojiAnim(this, '${animClass}')">
-                <div class="emoji-icon text-7xl mb-6 transform transition-transform duration-500 inline-block">${p.emoji}</div>
-                <h3 class="text-xl font-bold text-gray-800 mb-2">${p.name}</h3>
-                <p class="text-gray-500 text-sm mb-4">${p.desc}</p>
-                <div class="text-amber-600 font-black text-2xl mb-6">৳${p.price}</div>
-                <button onclick="event.stopPropagation(); addToCart(${p.id}, this)" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 rounded-2xl transition-all active:scale-95">
-                    কার্টে যুক্ত করুন
-                </button>
-            </div>
-        `;
-    }).join('');
-  
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = products.map(p => `
+                <div class="product-card bg-white p-8 rounded-[40px] shadow-xl text-center relative overflow-hidden">
+                    <div class="text-7xl mb-6 transform transition-transform hover:scale-110 duration-500">${p.emoji}</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">${p.name}</h3>
+                    <p class="text-gray-500 text-sm mb-4">${p.desc}</p>
+                    <div class="text-amber-600 font-black text-2xl mb-6">৳${p.price}</div>
+                    <button onclick="addToCart(${p.id}, this)" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 rounded-2xl transition-all active:scale-95">
+                        কার্টে যুক্ত করুন
+                    </button>
+                </div>
+            `).join('');
         }
 
         // মৌমাছি পার্কিং ও এনিমেশন রিসেট
@@ -635,15 +616,6 @@
 
         window.onmousemove = startIdleBee;
         window.onscroll = startIdleBee;
-        function runEmojiAnim(card, className) {
-    const emoji = card.querySelector('.emoji-icon');
-    emoji.classList.add(className);
-    
-    // এনিমেশন শেষ হলে ক্লাসটি সরিয়ে ফেলা যাতে পরে আবার ক্লিক করা যায়
-    setTimeout(() => {
-        emoji.classList.remove(className);
-    }, 700);
-        }
     </script>
 </body>
-                            </html>
+</html>
